@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Job Applicants | Admin Dashboard</title>
+  <meta name="theme-color" content="#14100c">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Jost", sans-serif;
+      font-size: 15px;
+      color: #817f7c;
+      background: #f0eeeb;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: #14100c; font-weight: 500; }
+    a { text-decoration: none; color: inherit; transition: 0.25s; }
+    ul { list-style: none; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #14100c;
+      color: #fff;
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 24px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 20px;
+    }
+    .sidebar-logo i { font-size: 24px; color: #ac835d; }
+    .sidebar-logo span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+    .sidebar-nav a i { width: 20px; text-align: center; font-size: 15px; }
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: #ac835d;
+      background: rgba(172,131,93,0.1);
+    }
+    .sidebar-nav .section-label {
+      padding: 18px 24px 8px;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-footer a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.55);
+      font-size: 14px;
+    }
+    .sidebar-footer a:hover { color: #e74c3c; }
+
+    .main { display: flex; flex-direction: column; }
+    .topbar {
+      background: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e8e4de;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar h1 { font-size: 1.35rem; margin: 0; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar-right .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #14100c;
+      font-weight: 500;
+    }
+    .topbar-right .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #14100c;
+      color: #ac835d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 600;
+      overflow: hidden;
+    }
+    .topbar-right .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .topbar-right .user-meta { display: flex; flex-direction: column; line-height: 1.25; }
+    .topbar-right .user-meta small { font-size: 12px; color: #999; font-weight: 400; text-transform: capitalize; }
+
+    .content { padding: 32px; flex: 1; }
+
+    .flash {
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .flash-success { background: #e8f8ef; color: #1e8449; border: 1px solid #b7e1c4; }
+    .flash-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6cb; }
+
+    /* Table Card */
+    .table-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(20,16,12,0.04);
+      overflow: hidden;
+    }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #faf9f7;
+      padding: 16px 24px;
+      font-weight: 600;
+      color: #14100c;
+      border-bottom: 1px solid #f0eeeb;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0eeeb;
+      color: #555;
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9f7; }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      background: #ac835d;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-action:hover { background: #96704d; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,16,12,0.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(20,16,12,0.25);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0eeeb;
+    }
+    .modal-header h3 { font-size: 1.25rem; margin: 0; }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #14100c; }
+    .modal-body { padding: 24px; }
+    .modal-body label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #14100c;
+      margin-bottom: 6px;
+    }
+    .modal-body textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #14100c;
+      background: #f7f6f4;
+      border: 1.5px solid rgba(172,131,93,0.25);
+      border-radius: 8px;
+      outline: none;
+      min-height: 130px;
+      resize: vertical;
+    }
+    .modal-body textarea:focus { border-color: #ac835d; background: #fff; }
+    .btn-modal {
+      width: 100%;
+      padding: 13px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 50px;
+      background: #ac835d;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+    .btn-modal:hover { background: #96704d; }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #14100c;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        z-index: 100;
+        transition: left 0.3s ease;
+        width: 260px;
+      }
+      .sidebar.open { left: 0; }
+      .mobile-toggle { display: block; }
+      .content { padding: 20px 16px; }
+      .topbar { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>House of Laws</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="section-label">Main</div>
+        <a href="/p3v9m6k-w2x5-secure-panel-f8q1"><i class="fa-solid fa-grid-2"></i> Dashboard</a>
+        <a href="{{ url_for('admin_appointments') }}"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="{{ url_for('admin_messages') }}"><i class="fa-solid fa-envelope"></i> Messages</a>
+        <a href="#"><i class="fa-solid fa-users"></i> Clients</a>
+
+        <div class="section-label">People</div>
+        <a href="#"><i class="fa-solid fa-user-tie"></i> Staff Directory</a>
+        <a href="#"><i class="fa-solid fa-user-plus"></i> Add Staff Details</a>
+        <a href="{{ url_for('admin_job_applicants') }}" class="active"><i class="fa-solid fa-briefcase"></i> Job Applicants</a>
+
+        <div class="section-label">Content</div>
+        <a href="#"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="#"><i class="fa-solid fa-user-tie"></i> Attorneys</a>
+        <a href="{{ url_for('admin_jobs') }}"><i class="fa-solid fa-briefcase"></i> Careers / Jobs</a>
+        <a href="{{ url_for('admin_newsletter') }}"><i class="fa-solid fa-envelope-open-text"></i> Manage Newsletter</a>
+        
+        <div class="section-label">System</div>
+        <a href="{{ url_for('admin_list') }}"><i class="fa-solid fa-user-gear"></i> Admins</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/t6n0b4j-r8h3-exit-session-y5c7">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button class="mobile-toggle" id="menuBtn" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1>Job Applicants</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="user">
+            <div class="avatar">
+              {% if admin and admin.profile_picture %}
+                <img src="{{ url_for('static', filename=admin.profile_picture) }}" alt="{{ admin.first_name }}">
+              {% else %}
+                {{ (admin.first_name[0] ~ admin.last_name[0]) if admin else 'AD' }}
+              {% endif %}
+            </div>
+            <div class="user-meta">
+              <span>{{ admin_name or (admin.first_name ~ ' ' ~ admin.last_name if admin else 'Admin') }}</span>
+              <small>{{ admin_role or (admin.role if admin else '') }}</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- Applications Table Card -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Applicant</th>
+                  <th>Job Position</th>
+                  <th>Contact</th>
+                  <th>Submitted Answers &amp; Files</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if applications %}
+                  {% for app in applications %}
+                  <tr>
+                    <td>
+                      <strong>{{ app.applicant_name }}</strong><br>
+                      <span style="font-size: 12px; color: #999;">Applied on {{ app.submitted_at.strftime('%d %b %Y, %H:%M') }}</span>
+                    </td>
+                    <td>
+                      <span style="display: inline-block; font-size: 11.5px; font-weight: 600; color: #ac835d;">{{ app.job.title }}</span><br>
+                      <small style="color: #817f7c;">{{ app.job.department }}</small>
+                    </td>
+                    <td>
+                      <div>{{ app.applicant_email }}</div>
+                      <div style="font-size: 12.5px; color: #999;">{{ app.applicant_phone }}</div>
+                    </td>
+                    <td>
+                      <div style="max-height: 100px; overflow-y: auto; font-size: 13px; background: #faf9f7; padding: 8px; border-radius: 6px;">
+                        {% set answers = app.answers_json | fromjson %}
+                        {% for label, val in answers.items() %}
+                          <div style="margin-bottom: 4px;">
+                            <strong>{{ label }}:</strong> 
+                            {% if val.startswith('uploads/applicants/') %}
+                              <a href="{{ url_for('static', filename=val) }}" target="_blank" style="color: #ac835d; text-decoration: underline;"><i class="fa-solid fa-file-arrow-down"></i> Download File</a>
+                            {% else %}
+                              {{ val }}
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                    <td style="text-align: right;">
+                      <button type="button" class="btn-action" onclick="openReplyModal('{{ app.id }}', '{{ app.applicant_name }}', '{{ app.applicant_email }}', '{{ app.job.title }}')">
+                        <i class="fa-solid fa-reply"></i> Respond
+                      </button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="5" style="text-align: center; padding: 36px; color: #999;">
+                      No job applications received yet.
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Reply Modal -->
+  <div class="modal-overlay" id="replyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Respond to Applicant</h3>
+        <button type="button" class="modal-close" onclick="closeReplyModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modalSub" style="font-size: 13px; color: #817f7c; margin-bottom: 16px; background: #f7f6f4; padding: 12px; border-radius: 8px;"></p>
+        <form id="replyForm" method="POST">
+          <div class="form-group">
+            <label>Response / Interview Invitation Message</label>
+            <textarea name="reply_message" required placeholder="Type your response or interview schedule details here... It will be emailed directly to the applicant."></textarea>
+          </div>
+          <button type="submit" class="btn-modal">Send Email Response</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    function openReplyModal(id, name, email, jobTitle) {
+      document.getElementById('modalTitle').innerText = `Respond to ${name}`;
+      document.getElementById('modalSub').innerHTML = `<strong>To:</strong> ${email}<br><strong>Position:</strong> ${jobTitle}`;
+      document.getElementById('replyForm').action = `/p3v9m6k-w2x5-secure-panel-f8q1/jobs/applicants/reply/${id}`;
+      document.getElementById('replyModal').classList.add('open');
+    }
+
+    function closeReplyModal() {
+      document.getElementById('replyModal').classList.remove('open');
+    }
+
+    document.getElementById('replyModal').addEventListener('click', function(e) {
+      if (e.target === this) closeReplyModal();
+    });
+  </script>
+</body>
+</html>

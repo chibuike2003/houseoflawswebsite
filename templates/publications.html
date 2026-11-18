@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Publications &amp; Legal Insights | The House of Laws</title>
+  <meta name="theme-color" content="#14100c">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Jost", sans-serif; font-size: 17px; line-height: 1.7; color: #817f7c; background: #fff; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: #14100c; }
+    a { text-decoration: none; color: inherit; transition: 0.25s; }
+    .container { width: min(1140px, 92%); margin-inline: auto; }
+
+    /* Navbar */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0; background: rgba(20, 16, 12, 0.95); backdrop-filter: blur(12px); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; color: #fff; }
+    .logo-icon { font-size: 26px; color: #ac835d; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: #ac835d; }
+
+    /* Banner */
+    .page-banner { background: linear-gradient(rgba(20,16,12,0.8), rgba(20,16,12,0.85)), url('https://thehouseoflaws.org/img/slider/12.jpg') center/cover no-repeat; padding: 160px 0 90px; text-align: center; color: #fff; }
+    .page-banner h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); color: #fff; margin-bottom: 12px; }
+
+    /* Grid */
+    .pubs-section { padding: 90px 0; background: #f7f6f4; }
+    .pubs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+    .pub-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(20,16,12,0.05); display: flex; flex-direction: column; transition: transform 0.3s; border: 1px solid rgba(172,131,93,0.1); }
+    .pub-card:hover { transform: translateY(-6px); }
+    .pub-img { height: 210px; background: #14100c; overflow: hidden; position: relative; }
+    .pub-img img { width: 100%; height: 100%; object-fit: cover; }
+    .pub-category { position: absolute; top: 16px; left: 16px; background: #ac835d; color: #fff; font-size: 11px; font-weight: 600; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+    .pub-body { padding: 28px; display: flex; flex-direction: column; flex: 1; }
+    .pub-meta { font-size: 13px; color: #999; margin-bottom: 10px; display: flex; gap: 14px; }
+    .pub-body h3 { font-size: 1.3rem; margin-bottom: 12px; line-height: 1.35; }
+    .pub-body p { font-size: 15px; color: #817f7c; margin-bottom: 20px; flex: 1; }
+    .read-more { font-weight: 600; color: #ac835d; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+    .read-more:hover { gap: 10px; }
+
+    /* Footer */
+    footer { background: #14100c; color: rgba(255,255,255,0.65); padding: 50px 0 25px; text-align: center; font-size: 14px; }
+    footer a { color: #ac835d; }
+  </style>
+</head>
+<body>
+  
+
+  <div id="page-content">
+<nav class="navbar" id="navbar">
+      <div class="container nav-inner">
+        <a href="{{ url_for('index') }}" class="logo">
+          <i class="fa-solid fa-scale-balanced logo-icon"></i>
+          <div class="logo-text">
+            The House of Laws
+          </div>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" type="button">
+          <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+          <a href="{{ url_for('home') }}" class="active">Home</a>
+          <a href="{{ url_for('about') }}">About</a>
+          <a href="{{ url_for('home') }}#practices">Practice Areas</a>
+          <a href="{{ url_for('home') }}#team">Attorneys</a>
+          <a href="{{ url_for('public_publications') }}">Publications</a>
+          <a href="{{ url_for('public_testimonials') }}">Success Stories</a>
+          <a href="{{ url_for('careers') }}">Careers</a>
+          <a href="{{ url_for('contact') }}">Contact</a>
+          <div class="nav-cta">
+            <a href="{{ url_for('appointment') }}" class="btn btn-filled">Schedule Appointment</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <style>
+      /* --- Base Navbar Layout --- */
+      .navbar {
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #14100c;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .logo-icon {
+        color: #ac835d;
+        font-size: 22px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #444;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        color: #ac835d;
+      }
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: #14100c;
+      }
+
+      /* --- Responsive Mobile Styles --- */
+      @media (max-width: 992px) {
+        .menu-toggle {
+          display: block;
+        }
+        .nav-links {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #ffffff;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 20px 30px;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+          border-top: 1px solid #eee;
+          display: none; /* Hidden by default */
+        }
+        .nav-links.active {
+          display: flex; /* Shown when toggled */
+        }
+        .nav-links a {
+          padding: 10px 0;
+          width: 100%;
+          font-size: 16px;
+        }
+        .nav-cta {
+          width: 100%;
+          margin-top: 10px;
+        }
+        .nav-cta .btn {
+          display: block;
+          text-align: center;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    </style>
+
+    <script>
+      // --- Mobile Menu Toggle Script ---
+      document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const menuIcon = document.getElementById("menuIcon");
+
+        if (menuToggle && navLinks) {
+          menuToggle.addEventListener("click", function() {
+            navLinks.classList.toggle("active");
+            
+            // Switch hamburger icon to a close (X) icon dynamically
+            if (navLinks.classList.contains("active")) {
+              menuIcon.classList.remove("fa-bars");
+              menuIcon.classList.add("fa-xmark");
+            } else {
+              menuIcon.classList.remove("fa-xmark");
+              menuIcon.classList.add("fa-bars");
+            }
+          });
+        }
+      });
+    </script>
+
+
+  <!-- BANNER -->
+  <header class="page-banner">
+    <div class="container">
+      <h1>Chambers Publications &amp; Insights</h1>
+      <p style="color: rgba(255,255,255,0.75);">Authoritative legal commentaries, case analyses, and dispatches from our counsel.</p>
+    </div>
+  </header>
+
+  <!-- PUBLICATIONS SECTION -->
+  <section class="pubs-section">
+    <div class="container">
+      <div class="pubs-grid">
+        {% if publications %}
+          {% for pub in publications %}
+          <div class="pub-card">
+            <div class="pub-img">
+              {% if pub.cover_image %}
+                <img src="{{ url_for('static', filename=pub.cover_image) }}" alt="{{ pub.title }}">
+              {% else %}
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#ac835d;font-size:2.5rem;"><i class="fa-solid fa-scale-balanced"></i></div>
+              {% endif %}
+              <span class="pub-category">{{ pub.category }}</span>
+            </div>
+            <div class="pub-body">
+              <div class="pub-meta">
+                <span><i class="fa-solid fa-calendar"></i> {{ pub.created_at.strftime('%b %d, %Y') }}</span>
+                <span><i class="fa-solid fa-user-pen"></i> {{ pub.author_name }}</span>
+              </div>
+              <h3>{{ pub.title }}</h3>
+              <p>{{ pub.summary }}</p>
+              <a href="{{ url_for('public_publication_detail', slug=pub.slug) }}" class="read-more">Read Full Article <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px; background: #fff; border-radius: 12px; color: #999;">
+            <p style="font-size: 1.1rem;">No published articles are currently available. Please check back soon.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>© 2026 The House of Laws · Ogbuka, Ogbuka &amp; Associates. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

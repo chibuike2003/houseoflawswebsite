@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Admin Login | The House Of Laws</title>
+  <meta name="theme-color" content="#14100c">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Jost", sans-serif;
+      font-size: 16px;
+      color: #817f7c;
+      background: #f7f6f4;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; color: #14100c; font-weight: 500; }
+    a { text-decoration: none; color: inherit; transition: 0.25s; }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(20,16,12,0.1);
+      overflow: hidden;
+    }
+    .auth-header {
+      background: #14100c;
+      padding: 40px 40px 34px;
+      text-align: center;
+    }
+    .auth-header .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .auth-header .logo i { font-size: 28px; color: #ac835d; }
+    .auth-header .logo span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .auth-header h1 {
+      color: #fff;
+      font-size: 1.7rem;
+      margin-bottom: 6px;
+    }
+    .auth-header p {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+    }
+
+    .auth-body { padding: 36px 40px 40px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #14100c;
+      margin-bottom: 7px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      color: #14100c;
+      background: #f7f6f4;
+      border: 1.5px solid rgba(172,131,93,0.25);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .form-group input:focus {
+      border-color: #ac835d;
+      background: #fff;
+    }
+
+    /* Flash messages */
+    .flash {
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .flash-error {
+      background: #fdecea;
+      color: #c0392b;
+      border: 1px solid #f5c6cb;
+    }
+    .flash-success {
+      background: #e8f8ef;
+      color: #1e8449;
+      border: 1px solid #b7e1c4;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+    .form-options label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #817f7c;
+    }
+    .form-options input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #ac835d;
+    }
+    .form-options a { color: #ac835d; }
+    .form-options a:hover { text-decoration: underline; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 24px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: #ac835d;
+      color: #fff;
+    }
+    .btn:hover {
+      background: #96704d;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(172,131,93,0.3);
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 14px;
+      color: #817f7c;
+    }
+    .auth-footer a {
+      color: #ac835d;
+      font-weight: 500;
+    }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #999;
+    }
+    .back-link:hover { color: #ac835d; }
+
+    @media (max-width: 480px) {
+      .auth-header, .auth-body { padding: 28px 24px; }
+      .auth-header h1 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>The House of Laws</span>
+      </div>
+      <h1>Admin Login</h1>
+      <p>Sign in to the chambers management portal</p>
+    </div>
+
+    <div class="auth-body">
+
+      <!-- Flash messages from Flask -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Secret login route -->
+      <form action="/h4j8r1t-z5c2-portal-auth-b7n0" method="POST">
+        <div class="form-group">
+          <label for="email">Email or Username</label>
+          <input type="text" id="email" name="email" required
+                 placeholder="admin@thehouseoflaws.org"
+                 value="{{ request.form.email or '' }}"
+                 autofocus>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required
+                 placeholder="Enter your password">
+        </div>
+
+        <div class="form-options">
+          <label>
+            <input type="checkbox" name="remember"> Remember me
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn">
+          <i class="fa-solid fa-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Need an account?
+        <a href="/k9m2x7p-q4w8-admin-reg-n3v6">Create one</a>
+      </div>
+
+      <a href="/" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to website
+      </a>
+    </div>
+  </div>
+</body>
+</html>

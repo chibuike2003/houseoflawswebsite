@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Newsletter &amp; Subscribers | The House Of Laws Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Jost", sans-serif;
+      background: #f4f2ef;
+      color: #2c2926;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Top Admin Header */
+    .topbar {
+      background: #14100c;
+      color: #fff;
+      padding: 16px 0;
+      border-bottom: 2px solid #ac835d;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .container {
+      width: min(1240px, 94%);
+      margin-inline: auto;
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand i {
+      font-size: 26px;
+      color: #ac835d;
+    }
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .brand-title span {
+      display: block;
+      font-family: "Jost", sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ac835d;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-family: "Jost", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.25s ease;
+    }
+    .btn-gold {
+      background: #ac835d;
+      color: #fff;
+    }
+    .btn-gold:hover {
+      background: #926d4b;
+      transform: translateY(-1px);
+    }
+    .btn-outline-light {
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+    .btn-outline-light:hover {
+      border-color: #ac835d;
+      color: #ac835d;
+    }
+    .btn-outline-dark {
+      border-color: #d6d0c7;
+      color: #14100c;
+      background: #fff;
+    }
+    .btn-outline-dark:hover {
+      border-color: #ac835d;
+      color: #ac835d;
+    }
+    .btn-danger-sm {
+      background: #fdecea;
+      color: #c0392b;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      border: 1px solid #f5c6cb;
+    }
+    .btn-danger-sm:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+
+    /* Flash Messages */
+    .flash-wrap { margin-top: 24px; }
+    .alert {
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .alert-success { background: #e8f8ef; color: #1e8449; border: 1px solid #b7e1c4; }
+    .alert-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6cb; }
+
+    /* Stats Banner */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 28px 0;
+    }
+    .stat-card {
+      background: #fff;
+      padding: 22px 24px;
+      border-radius: 10px;
+      border-left: 4px solid #ac835d;
+      box-shadow: 0 4px 16px rgba(20,16,12,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stat-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: #14100c;
+      line-height: 1.1;
+    }
+    .stat-card p {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #817f7c;
+      margin-top: 4px;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(172,131,93,0.12);
+      color: #ac835d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    /* Main Layout Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 6px 24px rgba(20,16,12,0.05);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eeeae4;
+      flex-wrap: wrap;
+    }
+    .card-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #14100c;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-header h2 i { color: #ac835d; font-size: 1.1rem; }
+
+    /* Form Controls */
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #14100c;
+      margin-bottom: 6px;
+    }
+    .form-group label span {
+      color: #817f7c;
+      font-weight: 400;
+      font-size: 12px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1.5px solid #dfd9d0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      color: #14100c;
+      background: #fcfbfa;
+      transition: border-color 0.25s ease;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #ac835d;
+      background: #fff;
+    }
+    textarea.form-control {
+      min-height: 170px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Custom Multi-File Upload Box */
+    .file-drop-area {
+      border: 2px dashed #d5cdc2;
+      border-radius: 10px;
+      padding: 22px 16px;
+      text-align: center;
+      background: #faf8f5;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .file-drop-area:hover {
+      border-color: #ac835d;
+      background: rgba(172,131,93,0.05);
+    }
+    .file-drop-area i {
+      font-size: 28px;
+      color: #ac835d;
+      margin-bottom: 8px;
+    }
+    .file-drop-area p {
+      font-size: 14px;
+      color: #5c5854;
+    }
+    .file-drop-area small {
+      display: block;
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+    .file-drop-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .file-list {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .file-badge {
+      background: #efeae2;
+      color: #14100c;
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .file-badge i { color: #ac835d; }
+
+    /* Subscriber List */
+    .search-box {
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px 10px 36px;
+      border: 1.5px solid #dfd9d0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .search-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 13px;
+    }
+    .table-wrap {
+      max-height: 440px;
+      overflow-y: auto;
+      border: 1px solid #eeeae4;
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      background: #14100c;
+      color: #fff;
+      text-align: left;
+      padding: 12px 14px;
+      font-weight: 500;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid #f0ece6;
+      word-break: break-word;
+    }
+    tr:hover td { background: #faf8f5; }
+
+    /* Sent History Feed (Visible to all admins) */
+    .history-section { margin-bottom: 60px; }
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .history-item {
+      background: #fcfbfa;
+      border: 1px solid #e8e2d9;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .history-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #817f7c;
+      margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .sender-pill {
+      background: rgba(172,131,93,0.15);
+      color: #7d5b3b;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-weight: 500;
+    }
+    .history-item h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: #14100c;
+      margin-bottom: 8px;
+    }
+    .history-body {
+      font-size: 14px;
+      color: #555;
+      white-space: pre-line;
+      margin-bottom: 14px;
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .history-attachments {
+      border-top: 1px dashed #e2dcd3;
+      padding-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .att-link {
+      font-size: 12px;
+      background: #fff;
+      border: 1px solid #dcd5ca;
+      padding: 4px 10px;
+      border-radius: 5px;
+      color: #14100c;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .att-link:hover {
+      border-color: #ac835d;
+      color: #ac835d;
+    }
+
+    @media (max-width: 920px) {
+      .main-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .card { padding: 20px 16px; }
+      .history-grid { grid-template-columns: 1fr; }
+      .topbar-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <div class="brand-title">
+          The House of Laws
+          <span>Newsletter &amp; Communications Hub</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <a href="{{ dashboard_url }}" class="btn btn-outline-light">
+          <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-wrap">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              <i class="fa-solid {% if category == 'error' %}fa-circle-exclamation{% else %}fa-circle-check{% endif %}"></i>
+              <span>{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Overview Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div>
+          <h3>{{ subscribers|length }}</h3>
+          <p>Active Subscribers</p>
+        </div>
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <h3>{{ sent_newsletters|length }}</h3>
+          <p>Dispatches Sent</p>
+        </div>
+        <div class="stat-icon"><i class="fa-solid fa-paper-plane"></i></div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <h3 style="font-size:1.3rem;">{{ admin.first_name }} {{ admin.last_name }}</h3>
+          <p>Logged in as {{ admin.role }}</p>
+        </div>
+        <div class="stat-icon"><i class="fa-solid fa-user-shield"></i></div>
+      </div>
+    </div>
+
+    <!-- Composer & Subscriber Directory -->
+    <div class="main-grid">
+
+      <!-- Left: Send Newsletter Form -->
+      <section class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-pen-nib"></i> Compose Newsletter</h2>
+          <span style="font-size:12px;color:#817f7c;">Sends to all {{ subscribers|length }} active emails</span>
+        </div>
+
+        <form action="{{ url_for('admin_newsletter') }}" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="subject">Newsletter Subject *</label>
+            <input type="text" id="subject" name="subject" class="form-control" required
+                   placeholder="e.g., Legal Digest: Constitutional Rights Update — November 2026">
+          </div>
+
+          <div class="form-group">
+            <label for="message">Newsletter Message *</label>
+            <textarea id="message" name="message" class="form-control" required
+                      placeholder="Write your official message, legal insights, or chambers announcement here..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Attach Files <span>(Optional — PDF, DOCX, Images, Spreadsheets, ZIP, etc.)</span></label>
+            <div class="file-drop-area">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Click to select or drag &amp; drop one or multiple files</p>
+              <small>Hold Ctrl (Windows) or Cmd (Mac) to select multiple files at once (Max 25MB total)</small>
+              <input type="file" id="attachments" name="attachments" multiple>
+            </div>
+            <div class="file-list" id="fileListPreview"></div>
+          </div>
+
+          <button type="submit" class="btn btn-gold" style="width:100%;padding:14px;font-size:15px;"
+                  onclick="return confirm('Send this newsletter to all {{ subscribers|length }} subscribed users?');">
+            <i class="fa-solid fa-paper-plane"></i> Send Newsletter to All Subscribers
+          </button>
+        </form>
+      </section>
+
+      <!-- Right: All Subscribed Emails -->
+      <section class="card">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-envelope-circle-check"></i> Subscribed Emails</h2>
+          <button type="button" class="btn btn-outline-dark" id="copyEmailsBtn" style="padding:7px 14px;font-size:13px;">
+            <i class="fa-regular fa-copy"></i> Copy All
+          </button>
+        </div>
+
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="subSearch" placeholder="Filter subscriber emails...">
+        </div>
+
+        <div class="table-wrap">
+          <table id="subTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Email Address</th>
+                <th>Date Joined</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if subscribers %}
+                {% for sub in subscribers %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="sub-email" style="font-weight:500;color:#14100c;">{{ sub.email }}</td>
+                    <td style="font-size:12px;color:#817f7c;">{{ sub.created_at.strftime('%d %b %Y') }}</td>
+                    <td>
+                      <form action="{{ url_for('delete_subscriber', sub_id=sub.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-danger-sm" title="Remove subscriber"
+                                onclick="return confirm('Remove {{ sub.email }} from newsletter list?');">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="4" style="text-align:center;padding:28px;color:#999;">
+                    No subscribed users yet.
+                  </td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom: All Sent Newsletter Messages (Shared Across All Admins) -->
+    <section class="card history-section">
+      <div class="card-header">
+        <h2><i class="fa-solid fa-clock-rotate-left"></i> Sent Newsletter Archive (Visible to All Admins)</h2>
+        <span style="font-size:13px;color:#817f7c;">Shared transparency log across chambers</span>
+      </div>
+
+      {% if sent_newsletters %}
+        <div class="history-grid">
+          {% for item in sent_newsletters %}
+            <article class="history-item">
+              <div>
+                <div class="history-meta">
+                  <span class="sender-pill">
+                    <i class="fa-solid fa-user-tie"></i> {{ item.sent_by_name }} ({{ item.sent_by_role }})
+                  </span>
+                  <span>{{ item.created_at.strftime('%d %b %Y · %H:%M UTC') }}</span>
+                </div>
+                <h4>{{ item.subject }}</h4>
+                <div class="history-body">{{ item.message }}</div>
+              </div>
+
+              <div>
+                <div style="font-size:12px;color:#ac835d;margin-bottom:8px;font-weight:500;">
+                  <i class="fa-solid fa-users"></i> Delivered to {{ item.recipient_count }} subscriber(s)
+                </div>
+
+                {% if item.attachments %}
+                  <div class="history-attachments">
+                    <span style="font-size:12px;color:#817f7c;"><i class="fa-solid fa-paperclip"></i> Files:</span>
+                    {% for fname in item.attachments.split(',') %}
+                      <a href="{{ url_for('static', filename='uploads/newsletters/' + fname) }}"
+                         target="_blank" class="att-link">
+                        <i class="fa-solid fa-file-arrow-down"></i>
+                        {{ fname.split('_', 1)[1] if '_' in fname else fname }}
+                      </a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p style="text-align:center;padding:30px 0;color:#817f7c;">
+          No newsletters have been dispatched yet. Messages sent above will appear here for all admins to review.
+        </p>
+      {% endif %}
+    </section>
+
+  </main>
+
+  <script>
+    // Preview selected files before sending
+    const fileInput = document.getElementById('attachments');
+    const fileListPreview = document.getElementById('fileListPreview');
+
+    fileInput.addEventListener('change', () => {
+      fileListPreview.innerHTML = '';
+      Array.from(fileInput.files).forEach(file => {
+        const sizeKB = (file.size / 1024).toFixed(1);
+        const badge = document.createElement('div');
+        badge.className = 'file-badge';
+        badge.innerHTML = `<i class="fa-solid fa-file"></i> ${file.name} (${sizeKB} KB)`;
+        fileListPreview.appendChild(badge);
+      });
+    });
+
+    // Live email search filter
+    const subSearch = document.getElementById('subSearch');
+    subSearch.addEventListener('input', () => {
+      const term = subSearch.value.toLowerCase();
+      document.querySelectorAll('#subTable tbody tr').forEach(row => {
+        const emailCell = row.querySelector('.sub-email');
+        if (emailCell) {
+          row.style.display = emailCell.textContent.toLowerCase().includes(term) ? '' : 'none';
+        }
+      });
+    });
+
+    // Copy all subscriber emails to clipboard
+    const copyBtn = document.getElementById('copyEmailsBtn');
+    copyBtn.addEventListener('click', () => {
+      const emails = Array.from(document.querySelectorAll('.sub-email'))
+        .map(el => el.textContent.trim())
+        .join(', ');
+      if (!emails) return;
+      navigator.clipboard.writeText(emails).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        setTimeout(() => copyBtn.innerHTML = originalText, 2000);
+      });
+    });
+  </script>
+</body>
+</html>

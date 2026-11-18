@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Activity Audit Logs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; padding: 30px; color: #333; }
+    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h2 { margin-top: 0; color: #14100c; border-bottom: 2px solid #ac835d; padding-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+    th { background: #14100c; color: #fff; }
+    .badge-get { background: #e8f8ef; color: #1e8449; padding: 3px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+    .badge-post { background: #eef2f7; color: #2b6cb0; padding: 3px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+    .back-link { display: inline-block; margin-bottom: 15px; color: #ac835d; text-decoration: none; font-weight: 500; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="{{ url_for('admin_dashboard') }}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+  <h2><i class="fa-solid fa-clock-rotate-left" style="color: #ac835d;"></i> Website Activity &amp; Audit Trail</h2>
+  <p>Real-time log of requests made across the website by both visitors and authenticated administrators.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp (UTC)</th>
+        <th>User / Actor</th>
+        <th>IP Address</th>
+        <th>Method</th>
+        <th>Requested Path</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td><strong>{{ log.user_identifier }}</strong></td>
+        <td><code>{{ log.ip_address }}</code></td>
+        <td>
+          <span class="{{ 'badge-get' if log.method == 'GET' else 'badge-post' }}">{{ log.method }}</span>
+        </td>
+        <td><code>{{ log.path }}</code></td>
+        <td>{{ log.description }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6" style="text-align:center; color:#888; padding:30px;">No activity logs recorded yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Win Cases &amp; Testimonials</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f9; margin: 0; padding: 30px; color: #333; }
+    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h2, h3 { color: #14100c; border-bottom: 2px solid #ac835d; padding-bottom: 10px; }
+    .alert { padding: 12px 16px; margin-bottom: 20px; border-radius: 6px; font-size: 14px; }
+    .alert-success { background: #e8f8ef; color: #1e8449; border: 1px solid #b7e1c4; }
+    .alert-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6cb; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+    .btn { padding: 10px 20px; background: #14100c; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .btn:hover { background: #ac835d; }
+    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+    th { background: #14100c; color: #fff; }
+    .btn-delete { background: #e74c3c; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .back-link { display: inline-block; margin-bottom: 15px; color: #ac835d; text-decoration: none; font-weight: 500; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="{{ url_for('admin_dashboard') }}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+  <h2><i class="fa-solid fa-award" style="color: #ac835d;"></i> Manage Winning Case Testimonials</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ 'success' if cat == 'success' else 'error' }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Client Name / Pseudonym</label>
+        <input type="text" name="client_name" placeholder="e.g. Chief M. O. Okafor" required>
+      </div>
+      <div class="form-group">
+        <label>Case Title / Matter</label>
+        <input type="text" name="case_title" placeholder="e.g. Suit No: FHC/EN/C/12/2025" required>
+      </div>
+      <div class="form-group">
+        <label>Practice Area</label>
+        <input type="text" name="practice_area" placeholder="e.g. Commercial Litigation" required>
+      </div>
+      <div class="form-group">
+        <label>Lead Counsel</label>
+        <input type="text" name="lead_counsel" placeholder="e.g. Dr. K. Ogbuka, SAN" required>
+      </div>
+      <div class="form-group">
+        <label>Verdict / Outcome Date</label>
+        <input type="text" name="case_date" placeholder="e.g. October 2026" required>
+      </div>
+      <div class="form-group">
+        <label>Publication Status</label>
+        <select name="is_published">
+          <option value="1">Published (Visible Publicly)</option>
+          <option value="">Draft (Hidden)</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Verdict Summary (Case Details &amp; Legal Victory)</label>
+        <textarea name="verdict_summary" rows="3" placeholder="Briefly describe the legal hurdle and how the chambers secured victory..." required></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Client Testimonial Statement</label>
+        <textarea name="client_testimonial" rows="3" placeholder="What the client said about their experience and representation..." required></textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn"><i class="fa-solid fa-plus"></i> Publish Win Case Testimonial</button>
+  </form>
+
+  <h3 style="margin-top:40px;">Recorded Win Cases &amp; Testimonials</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Client &amp; Case</th>
+        <th>Practice Area</th>
+        <th>Lead Counsel</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in testimonials %}
+      <tr>
+        <td>{{ t.case_date }}</td>
+        <td><strong>{{ t.client_name }}</strong><br><small>{{ t.case_title }}</small></td>
+        <td>{{ t.practice_area }}</td>
+        <td>{{ t.lead_counsel }}</td>
+        <td>{{ 'Published' if t.is_published else 'Draft' }}</td>
+        <td>
+          <form action="/{{ SECRET_DASHBOARD_PATH }}/testimonials/delete/{{ t.id }}" method="POST" onsubmit="return confirm('Delete this case testimonial?');" style="display:inline;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn-delete"><i class="fa-solid fa-trash"></i></button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6" style="text-align:center; color:#888; padding:30px;">No win cases recorded yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

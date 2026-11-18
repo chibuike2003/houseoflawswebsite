@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ job.title }} | Careers - The House Of Laws</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Jost", sans-serif; background: #f0eeeb; color: #817f7c; line-height: 1.7; padding: 40px 20px; }
+    .container { max-width: 760px; margin: 0 auto; background: #fff; border-radius: 14px; padding: 48px; box-shadow: 0 10px 30px rgba(20,16,12,0.06); }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; color: #14100c; }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; }
+    .job-meta { display: flex; gap: 16px; font-size: 14px; color: #ac835d; margin-bottom: 24px; font-weight: 500; flex-wrap: wrap; }
+    .job-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .description { background: #faf9f7; padding: 24px; border-radius: 8px; margin-bottom: 32px; color: #555; white-space: pre-line; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 600; text-transform: uppercase; color: #14100c; margin-bottom: 8px; }
+    input, textarea, select { width: 100%; padding: 14px 16px; font-family: inherit; font-size: 15px; background: #f7f6f4; border: 1.5px solid rgba(172,131,93,0.25); border-radius: 8px; outline: none; }
+    input:focus, textarea:focus { border-color: #ac835d; background: #fff; }
+    textarea { min-height: 120px; resize: vertical; }
+    .btn-submit { background: #ac835d; color: #fff; border: none; padding: 14px 32px; border-radius: 50px; font-size: 16px; font-weight: 500; cursor: pointer; width: 100%; font-family: inherit; }
+    .btn-submit:hover { background: #96704d; }
+    .success-box { text-align: center; padding: 60px 20px; }
+    .success-box i { font-size: 4rem; color: #ac835d; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {% if success %}
+      <div class="success-box">
+        <i class="fa-solid fa-circle-check"></i>
+        <h1>Application Submitted</h1>
+        <p>Thank you for applying for the <strong>{{ job.title }}</strong> position at The House of Laws. Our hiring committee will review your credentials and get in touch.</p>
+        <a href="/" style="display:inline-block; margin-top:24px; color:#ac835d; text-decoration:underline;">Return to Home</a>
+      </div>
+    {% else %}
+      <h1>{{ job.title }}</h1>
+      <div class="job-meta">
+        <span><i class="fa-solid fa-building"></i> {{ job.department }}</span>
+        <span><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
+        <span><i class="fa-solid fa-briefcase"></i> {{ job.employment_type }}</span>
+      </div>
+
+      <div class="description">{{ job.description }}</div>
+
+      <hr style="border:0; border-top:1px solid #eee; margin-bottom: 32px;">
+
+      <h3>Submit Your Application</h3>
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Full Name <span style="color:#ac835d;">*</span></label>
+          <input type="text" name="applicant_name" required placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+          <label>Email Address <span style="color:#ac835d;">*</span></label>
+          <input type="email" name="applicant_email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number <span style="color:#ac835d;">*</span></label>
+          <input type="tel" name="applicant_phone" required placeholder="0803 000 0000">
+        </div>
+
+        <!-- Dynamic Form Fields created by Admin -->
+        {% for field in job.fields %}
+          <div class="form-group">
+            <label>{{ field.field_label }} <span style="color:#ac835d;">*</span></label>
+            {% if field.field_type == 'file' %}
+              <input type="file" name="field_{{ field.id }}" required accept=".pdf,.doc,.docx">
+              <small style="color:#999; font-size:12px;">Accepted formats: PDF, DOC, DOCX</small>
+            {% elif field.field_type == 'textarea' %}
+              <textarea name="field_{{ field.id }}" required placeholder="Type your answer here..."></textarea>
+            {% else %}
+              <input type="text" name="field_{{ field.id }}" required placeholder="Your answer">
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-submit" style="margin-top: 12px;">Submit Application</button>
+      </form>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Appointments | The House of Laws</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: 'Jost', sans-serif; background: #f4f2ee; color: #14100c; margin: 0; }
+    .topbar { background: #14100c; color: #fff; padding: 18px 5%; display: flex; justify-content: space-between; align-items: center; }
+    .topbar h1 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0; }
+    .topbar h1 span { color: #ac835d; font-style: italic; }
+    .topbar a { color: #d4b48a; text-decoration: none; font-size: 14px; }
+    .container { width: min(1200px, 94%); margin: 30px auto; }
+    .flash { padding: 14px 18px; border-radius: 8px; margin-bottom: 18px; font-size: 14.5px; }
+    .flash.success { background: #e6f4ea; color: #137333; border: 1px solid #b7dfbe; }
+    .flash.error { background: #fde8e8; color: #9b1c1c; border: 1px solid #f5bcbc; }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .filter-btn { padding: 8px 16px; border-radius: 20px; background: #fff; color: #14100c; text-decoration: none; font-size: 14px; border: 1px solid #ddd; }
+    .filter-btn.active { background: #14100c; color: #fff; border-color: #14100c; }
+    .appt-card { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 22px; box-shadow: 0 6px 24px rgba(20,16,12,0.06); display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+    .badge-Pending { background: #fef3c7; color: #92400e; }
+    .badge-Confirmed { background: #dcfce7; color: #166534; }
+    .badge-Rescheduled { background: #e0f2fe; color: #075985; }
+    .badge-Completed { background: #ede9fe; color: #5b21b6; }
+    .badge-Declined { background: #fee2e2; color: #991b1b; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; font-size: 14.5px; }
+    .matter-box { background: #f7f6f4; padding: 14px; border-radius: 8px; font-size: 14.5px; margin-top: 10px; }
+    .action-panel { background: #faf9f7; border: 1px solid #e6e1d8; border-radius: 10px; padding: 18px; }
+    .action-panel label { display: block; font-size: 12.5px; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; color: #4a4845; }
+    .action-panel select, .action-panel input, .action-panel textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid #d5cfc5; border-radius: 6px;
+      font-family: 'Jost', sans-serif; font-size: 14px; margin-bottom: 12px; box-sizing: border-box;
+    }
+    .reschedule-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-submit { background: #ac835d; color: #fff; border: none; padding: 11px 18px; border-radius: 6px; font-weight: 500; cursor: pointer; width: 100%; font-size: 14.5px; }
+    .btn-submit:hover { background: #946e4b; }
+    .btn-delete { background: transparent; color: #b91c1c; border: 1px solid #f5bcbc; padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 10px; }
+    @media (max-width: 860px) { .appt-card { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Appointments <span>Desk</span></h1>
+    <a href="{{ url_for('admin_dashboard') }}"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        <div class="flash {{ category }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="filters">
+      {% for label, count in counts.items() %}
+        <a href="{{ url_for('admin_appointments', status=label) }}"
+           class="filter-btn {{ 'active' if status_filter == label else '' }}">
+          {{ label }} ({{ count }})
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if not appointments %}
+      <p>No appointments found under "{{ status_filter }}".</p>
+    {% endif %}
+
+    {% for appt in appointments %}
+      <div class="appt-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <strong>{{ appt.reference_code }} · {{ appt.full_name }}</strong>
+            <span class="badge badge-{{ appt.status }}">{{ appt.status }}</span>
+          </div>
+          <div class="meta-grid">
+            <div><strong>Email:</strong> {{ appt.email }}</div>
+            <div><strong>Phone:</strong> {{ appt.phone }}</div>
+            <div><strong>Date:</strong> {{ appt.preferred_date }}</div>
+            <div><strong>Time:</strong> {{ appt.preferred_time }}</div>
+            <div style="grid-column:1/-1;"><strong>Office:</strong> {{ appt.office }}</div>
+            <div style="grid-column:1/-1;"><strong>Practice Area:</strong> {{ appt.practice_area }}</div>
+          </div>
+          <div class="matter-box">
+            <strong>Client Brief:</strong><br>
+            {{ appt.message or 'No additional details provided.' }}
+          </div>
+          {% if appt.admin_response %}
+            <div class="matter-box" style="border-left:3px solid #ac835d;background:#fff;">
+              <strong>Last Response ({{ appt.handled_by_name }}):</strong><br>
+              {{ appt.admin_response }}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="action-panel">
+          <form method="POST" action="{{ url_for('admin_appointments') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="appointment_id" value="{{ appt.id }}">
+
+            <label>Action &amp; Direct Email Notification</label>
+            <select name="action_type" required>
+              <option value="Confirmed">Confirm Appointment &amp; Email Client</option>
+              <option value="Rescheduled">Reschedule Date/Time &amp; Email Client</option>
+              <option value="Reply">Send Direct Reply (Keep Current Status)</option>
+              <option value="Completed">Mark Completed &amp; Email Client</option>
+              <option value="Declined">Decline Request &amp; Email Client</option>
+            </select>
+
+            <div class="reschedule-row">
+              <div>
+                <label>New Date (If Rescheduling)</label>
+                <input type="date" name="new_date" value="{{ appt.preferred_date }}">
+              </div>
+              <div>
+                <label>New Time (If Rescheduling)</label>
+                <select name="new_time">
+                  <option value="">Keep ({{ appt.preferred_time }})</option>
+                  {% for k, v in valid_times.items() %}
+                    <option value="{{ k }}">{{ v }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <label>Direct Message to Client *</label>
+            <textarea name="admin_response" rows="3" required
+              placeholder="Write your confirmation instructions, reschedule note, or direct reply...">{{ appt.admin_response or '' }}</textarea>
+
+            <button type="submit" class="btn-submit">
+              <i class="fa-solid fa-paper-plane"></i> Save Action &amp; Send Email
+            </button>
+          </form>
+
+          <form method="POST" action="{{ url_for('delete_appointment', appt_id=appt.id) }}"
+                onsubmit="return confirm('Delete {{ appt.reference_code }} and notify {{ appt.email }}?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn-delete">
+              <i class="fa-solid fa-trash"></i> Cancel &amp; Delete (Emails Client)
+            </button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

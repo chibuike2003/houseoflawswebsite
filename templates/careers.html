@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Careers | The House of Laws</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Jost", sans-serif; background: #f0eeeb; color: #817f7c; line-height: 1.7; }
+    .pub-nav { background: #14100c; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; color: #fff; }
+    .pub-logo { display: flex; align-items: center; gap: 10px; font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: #fff; text-decoration: none; }
+    .pub-logo i { color: #ac835d; font-size: 22px; }
+    .container { max-width: 900px; margin: 50px auto; padding: 0 20px; }
+    h1, h2 { font-family: 'Playfair Display', serif; color: #14100c; }
+    .hero-section { text-align: center; margin-bottom: 40px; }
+    .hero-section h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .hero-section p { font-size: 1.1rem; color: #666; }
+    .job-card { background: #fff; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(20,16,12,0.04); display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+    .job-info h3 { font-size: 1.35rem; margin-bottom: 8px; color: #14100c; }
+    .job-meta { display: flex; gap: 16px; font-size: 13.5px; color: #ac835d; font-weight: 500; margin-bottom: 12px; flex-wrap: wrap; }
+    .job-meta span { display: inline-flex; align-items: center; gap: 6px; }
+    .job-snippet { color: #666; font-size: 14.5px; margin-bottom: 0; }
+    .btn-apply { background: #ac835d; color: #fff; padding: 12px 28px; border-radius: 50px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; white-space: nowrap; }
+    .btn-apply:hover { background: #96704d; }
+    .no-jobs { text-align: center; background: #fff; padding: 60px 20px; border-radius: 12px; font-size: 1.1rem; color: #817f7c; }
+  </style>
+</head>
+<body>
+
+  <nav class="pub-nav">
+    <a href="{{ url_for('home') }}" class="pub-logo">
+      <i class="fa-solid fa-scale-balanced"></i>
+      <span>The House of Laws</span>
+    </a>
+    <a href="{{ url_for('home') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px;"><i class="fa-solid fa-arrow-left"></i> Home</a>
+  </nav>
+
+  <div class="container">
+    <div class="hero-section">
+      <h1>Career Opportunities</h1>
+      <p>Join our esteemed chambers and build a rewarding career in legal practice and advocacy.</p>
+    </div>
+
+    {% if jobs %}
+      {% for job in jobs %}
+        <div class="job-card">
+          <div class="job-info" style="flex: 1; min-width: 280px;">
+            <h3>{{ job.title }}</h3>
+            <div class="job-meta">
+              <span><i class="fa-solid fa-building"></i> {{ job.department }}</span>
+              <span><i class="fa-solid fa-location-dot"></i> {{ job.location }}</span>
+              <span><i class="fa-solid fa-briefcase"></i> {{ job.employment_type }}</span>
+            </div>
+            <p class="job-snippet">{{ job.description[:140] }}...</p>
+          </div>
+          <div>
+            <a href="{{ url_for('public_job_apply', job_id=job.id) }}" class="btn-apply">
+              Apply Now <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-jobs">
+        <i class="fa-solid fa-briefcase-open" style="font-size: 3rem; color: #ac835d; margin-bottom: 16px; display: block;"></i>
+        <h3>No Openings At The Moment</h3>
+        <p style="margin-top: 8px;">Please check back later or subscribe to our newsletter for future openings.</p>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

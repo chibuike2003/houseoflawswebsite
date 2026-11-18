@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>About Us | The House Of Laws</title>
+  <meta name="author" content="Ikenna .B. Nwachukwu">
+  <meta name="theme-color" content="#14100c">
+  <meta name="description" content="About The House of Laws – A fortress of justice founded by Barr. JMCC Ogbuka. Learn our story, mission and commitment to equal rights across Nigeria.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Jost", sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #817f7c;
+      background: #fff;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; transition: 0.25s ease; }
+    ul { list-style: none; }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #14100c;
+      margin-bottom: 0.75rem;
+    }
+    .container { width: min(1140px, 92%); margin-inline: auto; }
+
+    /* Preloader */
+    #preloader {
+      position: fixed; inset: 0; background: #14100c; z-index: 99999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #preloader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-logo {
+      width: 80px; height: 80px; border: 2px solid #ac835d; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.1rem; color: #ac835d; animation: logoRoll 4s linear forwards;
+    }
+    .preloader-text {
+      margin-top: 24px; font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: #fff; letter-spacing: 1px; opacity: 0; animation: fadeInText 1s ease 0.5s forwards;
+    }
+    .preloader-text span { color: #ac835d; font-style: italic; }
+    .preloader-bar {
+      width: 110px; height: 2px; background: rgba(172,131,93,0.25);
+      margin-top: 28px; border-radius: 2px; overflow: hidden;
+    }
+    .preloader-bar span {
+      display: block; height: 100%; width: 0; background: #ac835d;
+      animation: loadBar 4s linear forwards;
+    }
+    @keyframes logoRoll {
+      0% { transform: rotate(0deg) scale(0.85); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: rotate(720deg) scale(1); opacity: 1; }
+    }
+    @keyframes fadeInText { to { opacity: 1; } }
+    @keyframes loadBar { to { width: 100%; } }
+
+    #page-content { opacity: 0; transition: opacity 0.9s ease 0.2s; }
+    #page-content.visible { opacity: 1; }
+
+    /* Animations */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s ease, transform 0.75s ease; }
+    .reveal-right.active { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.94); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-scale.active { opacity: 1; transform: scale(1); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; font-family: "Jost", sans-serif; font-size: 15px;
+      font-weight: 500; letter-spacing: 0.5px; border-radius: 50px;
+      border: 1.5px solid transparent; cursor: pointer; transition: all 0.3s ease;
+    }
+    .btn-filled { background: #ac835d; color: #fff; border-color: #ac835d; }
+    .btn-filled:hover { background: #96704d; border-color: #96704d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(172,131,93,0.3); }
+    .btn-outline { background: transparent; border-color: #ac835d; color: #ac835d; }
+    .btn-outline:hover { background: #ac835d; color: #fff; }
+    .btn-dark { background: #14100c; color: #fff; }
+    .btn-dark:hover { background: #2a231c; transform: translateY(-2px); }
+    .btn-light { background: transparent; border-color: rgba(255,255,255,0.45); color: #fff; }
+    .btn-light:hover { background: #fff; color: #14100c; border-color: #fff; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0;
+      background: rgba(20, 16, 12, 0.92); backdrop-filter: blur(12px);
+      transition: padding 0.3s ease; transform: translateY(-100%);
+    }
+    .navbar.show { transform: translateY(0); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .navbar.scrolled { padding: 12px 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; color: #fff; }
+    .logo-icon { font-size: 26px; color: #ac835d; flex-shrink: 0; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; line-height: 1.1; }
+    .nav-links { display: flex; align-items: center; gap: 22px; }
+    .nav-links a { color: rgba(255,255,255,0.88); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: #ac835d; }
+    .nav-cta { margin-left: 8px; }
+    .menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 6px; }
+
+    /* Page Banner */
+    .page-banner {
+      background: linear-gradient(rgba(20,16,12,0.78), rgba(20,16,12,0.85)),
+                  url('https://thehouseoflaws.org/img/slider/3.jpg') center/cover no-repeat;
+      padding: 160px 0 90px; text-align: center; color: #fff;
+    }
+    .page-banner .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 15px;
+      font-style: italic; color: #d4b48a; margin-bottom: 14px;
+    }
+    .page-banner .eyebrow i {
+      background: #ac835d; color: #fff; width: 34px; height: 34px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px;
+    }
+    .page-banner h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem); color: #fff; margin-bottom: 12px;
+    }
+    .page-banner p {
+      max-width: 540px; margin: 0 auto; color: rgba(255,255,255,0.75); font-size: 1.05rem;
+    }
+
+    /* Story Section */
+    .story { padding: 90px 0; background: #fff; }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .story-content .section-subtitle {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 15px;
+      font-style: italic; color: #ac835d; margin-bottom: 12px;
+    }
+    .story-content .section-subtitle i {
+      background: #ac835d; color: #fff; width: 30px; height: 30px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 12px;
+    }
+    .story-content h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem); margin-bottom: 18px;
+    }
+    .story-content h2 span { color: #ac835d; }
+    .story-content p { margin-bottom: 16px; color: #817f7c; }
+    .story-visual {
+      position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/5;
+      background: linear-gradient(160deg, #2a231c 0%, #14100c 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-visual i { font-size: 5.5rem; color: rgba(172,131,93,0.28); }
+    .story-badge {
+      position: absolute; bottom: 24px; left: 24px; background: #14100c;
+      color: #fff; padding: 18px 22px; border-radius: 10px; max-width: 210px;
+    }
+    .story-badge strong {
+      display: block; font-family: 'Playfair Display', serif; font-size: 1.7rem;
+      color: #ac835d; margin-bottom: 2px;
+    }
+    .story-badge span { font-size: 13px; opacity: 0.85; }
+
+    /* Mission / Vision / Values */
+    .mvv { padding: 90px 0; background: #f7f6f4; }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-subtitle {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 15px;
+      font-style: italic; color: #ac835d; margin-bottom: 10px;
+    }
+    .section-subtitle i {
+      background: #ac835d; color: #fff; width: 30px; height: 30px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 12px;
+    }
+    .section-title { font-size: clamp(1.7rem, 4vw, 2.4rem); margin-bottom: 10px; }
+    .section-title span { color: #ac835d; }
+
+    .mvv-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .mvv-card {
+      background: #fff; border-radius: 12px; padding: 40px 30px; text-align: center;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .mvv-card:hover {
+      transform: translateY(-6px); box-shadow: 0 18px 40px rgba(20,16,12,0.08);
+    }
+    .mvv-icon {
+      width: 64px; height: 64px; background: rgba(172,131,93,0.12); color: #ac835d;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin: 0 auto 22px; transition: background 0.3s, color 0.3s;
+    }
+    .mvv-card:hover .mvv-icon { background: #ac835d; color: #fff; }
+    .mvv-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+    .mvv-card p { font-size: 15px; color: #817f7c; margin: 0; }
+
+    /* Founder */
+    .founder { padding: 90px 0; background: #fff; }
+    .founder-grid {
+      display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center;
+    }
+    .founder-photo {
+      aspect-ratio: 3/3.6; border-radius: 12px; overflow: hidden;
+      background: linear-gradient(135deg, #2a231c, #14100c);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .founder-photo .initials {
+      font-family: 'Playfair Display', serif; font-size: 4.5rem;
+      color: rgba(172,131,93,0.4); letter-spacing: 4px;
+    }
+    .founder-photo .quote-box {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(20,16,12,0.92));
+      padding: 50px 28px 28px; color: #fff;
+    }
+    .founder-photo .quote-box p {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.05rem; line-height: 1.5; color: rgba(255,255,255,0.9);
+    }
+    .founder-content .section-subtitle { justify-content: flex-start; }
+    .founder-content h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.3rem); margin-bottom: 8px;
+    }
+    .founder-role {
+      font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: #ac835d; margin-bottom: 20px; font-weight: 500;
+    }
+    .founder-content p { margin-bottom: 16px; color: #817f7c; }
+    .founder-highlights {
+      margin: 28px 0 32px; display: grid; gap: 12px;
+    }
+    .founder-highlights li {
+      display: flex; align-items: flex-start; gap: 12px;
+      color: #14100c; font-size: 15.5px;
+    }
+    .founder-highlights li i {
+      color: #ac835d; margin-top: 4px; flex-shrink: 0;
+    }
+
+    /* Values / Principles */
+    .principles { padding: 90px 0; background: #14100c; color: #fff; }
+    .principles .section-title { color: #fff; }
+    .principles .section-subtitle { color: #d4b48a; }
+    .principles .section-subtitle i { background: #ac835d; }
+    .principles-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px;
+    }
+    .principle-item {
+      padding: 28px 20px; border-top: 2px solid rgba(172,131,93,0.35);
+      transition: border-color 0.3s;
+    }
+    .principle-item:hover { border-color: #ac835d; }
+    .principle-num {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      color: #ac835d; margin-bottom: 12px; opacity: 0.8;
+    }
+    .principle-item h4 {
+      color: #fff; font-size: 1.15rem; margin-bottom: 10px;
+    }
+    .principle-item p {
+      font-size: 14.5px; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.65;
+    }
+
+    /* Stats */
+    .stats { padding: 70px 0; background: #f7f6f4; }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center;
+    }
+    .stat-item strong {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3rem); color: #ac835d; line-height: 1.1;
+    }
+    .stat-item span {
+      font-size: 14px; letter-spacing: 0.5px; text-transform: uppercase;
+      color: #817f7c; margin-top: 6px; display: block;
+    }
+
+    /* CTA */
+    .about-cta {
+      background: linear-gradient(rgba(20,16,12,0.85), rgba(20,16,12,0.88)),
+                  url('https://thehouseoflaws.org/img/slider/12.jpg') center/cover no-repeat;
+      padding: 90px 0; text-align: center; color: #fff;
+    }
+    .about-cta h2 {
+      color: #fff; font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+      max-width: 640px; margin: 0 auto 16px;
+    }
+    .about-cta h2 span { color: #d4b48a; }
+    .about-cta p {
+      color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 32px;
+    }
+    .about-cta .actions {
+      display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+    }
+
+    /* Footer */
+    footer { background: #14100c; color: rgba(255,255,255,0.65); padding-top: 70px; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 50px;
+      padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand .logo { margin-bottom: 18px; }
+    .footer-brand p { font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
+    .socials { display: flex; gap: 12px; }
+    .socials a {
+      width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7);
+      font-size: 14px; transition: all 0.3s;
+    }
+    .socials a:hover { background: #ac835d; border-color: #ac835d; color: #fff; transform: translateY(-3px); }
+    .footer-col h4 {
+      color: #fff; font-size: 1.1rem; margin-bottom: 20px;
+      font-family: "Jost", sans-serif; font-weight: 500;
+    }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col a:hover { color: #ac835d; }
+    .footer-contact address {
+      font-style: normal; font-size: 14px; line-height: 1.55; margin-bottom: 14px;
+    }
+    .footer-contact address small { display: block; color: #ac835d; font-size: 12px; margin-bottom: 2px; }
+    .footer-contact a { color: rgba(255,255,255,0.8); }
+    .footer-contact a:hover { color: #ac835d; }
+    .footer-bottom {
+      padding: 22px 0; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 10px; font-size: 14px;
+    }
+    .footer-bottom a { color: #ac835d; }
+
+    /* WhatsApp */
+    .float-whatsapp {
+      position: fixed; width: 56px; height: 56px; bottom: 24px; right: 20px;
+      background: #25D366; color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.4); z-index: 999; font-size: 28px;
+      opacity: 0; transform: scale(0.6); transition: opacity 0.5s, transform 0.5s;
+    }
+    .float-whatsapp.show { opacity: 1; transform: scale(1); }
+    .float-whatsapp:hover { transform: scale(1.1); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 991px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: #14100c; flex-direction: column; align-items: flex-start;
+        padding: 20px 6%; gap: 0; border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a {
+        width: 100%; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      .nav-cta { margin: 16px 0 8px; width: 100%; }
+      .nav-cta .btn { width: 100%; }
+    }
+
+    @media (max-width: 900px) {
+      .story-grid, .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+      .story-visual, .founder-photo { max-width: 420px; margin: 0 auto; }
+      .mvv-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; }
+      .principles-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 600px) {
+      .page-banner { padding: 130px 0 70px; }
+      .story, .mvv, .founder, .principles { padding: 60px 0; }
+      .stats { padding: 50px 0; }
+      .about-cta { padding: 70px 0; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .about-cta .actions { flex-direction: column; align-items: center; }
+      .about-cta .actions .btn { width: 100%; max-width: 280px; }
+      .float-whatsapp { width: 50px; height: 50px; bottom: 18px; right: 14px; font-size: 24px; }
+    }
+
+    @media (max-width: 400px) {
+      .logo-text { font-size: 1.05rem; }
+      .page-banner h1 { font-size: 1.7rem; }
+      .btn { padding: 12px 22px; font-size: 14px; }
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-logo"><i class="fa-solid fa-scale-balanced"></i></div>
+    <div class="preloader-text">The House of <span>Laws</span></div>
+    <div class="preloader-bar"><span></span></div>
+  </div>
+
+  <div id="page-content">
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-scale-balanced logo-icon"></i>
+          <div class="logo-text">The House of Laws</div>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+         <a href="{{ url_for('home') }}" class="active">Home</a>
+          <a href="{{ url_for('about') }}">About</a>
+          <a href="{{ url_for('home') }}#practices">Practice Areas</a>
+          <a href="{{ url_for('home') }}#team">Attorneys</a>
+          <a href="{{ url_for('public_publications') }}">Publications</a>
+          <a href="{{ url_for('public_testimonials') }}">Success Stories</a>
+          <a href="{{ url_for('careers') }}">Careers</a>
+          <a href="{{ url_for('contact') }}">Contact</a>
+          <div class="nav-cta">
+            <a href="{{ url_for('appointment') }}" class="btn btn-filled">Schedule Appointment</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- BANNER -->
+    <header class="page-banner">
+      <div class="container">
+        <div class="eyebrow reveal">
+          <i class="fa-solid fa-landmark"></i>
+          Who we are
+        </div>
+        <h1 class="reveal delay-1">About The House of Laws</h1>
+        <p class="reveal delay-2">A fortress of justice founded on the principles of equality, integrity and fearless advocacy.</p>
+      </div>
+    </header>
+
+    <!-- OUR STORY -->
+    <section class="story">
+      <div class="container">
+        <div class="story-grid">
+          <div class="story-content reveal-left">
+            <div class="section-subtitle">
+              <i class="fa-solid fa-book-open"></i>
+              Our Story
+            </div>
+            <h2>A bastion of <span>refuge</span> against injustice</h2>
+            <p>
+              The House of Laws was established to provide a fortress of refuge for persons of all classes, races and nationalities — rich or poor, Nigerian or non-Nigerian — against all forms of injustice, inequity, oppression and abuse of power.
+            </p>
+            <p>
+              Led and founded by Barr. JMCC Ogbuka, an egalitarian legal luminary and human rights activist, the firm has become renowned for its bold defence of equal rights, constitutional freedoms and the rule of law across Nigeria.
+            </p>
+            <p>
+              From our chambers in Enugu and Abuja, we combine intellectual rigour with practical advocacy to protect the rights of individuals, communities and organisations who seek justice.
+            </p>
+            <a href="contact.html" class="btn btn-dark" style="margin-top: 10px;">Get in Touch</a>
+          </div>
+          <div class="story-visual reveal-right">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <div class="story-badge">
+              <strong>15+</strong>
+              <span>Years of dedicated legal practice &amp; advocacy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION / VISION / APPROACH -->
+    <section class="mvv">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-subtitle">
+            <i class="fa-solid fa-compass"></i>
+            Our Foundation
+          </div>
+          <h2 class="section-title">Mission, Vision &amp; <span>Approach</span></h2>
+        </div>
+        <div class="mvv-grid">
+          <div class="mvv-card reveal-scale delay-1">
+            <div class="mvv-icon"><i class="fa-solid fa-bullseye"></i></div>
+            <h3>Our Mission</h3>
+            <p>To defend the fundamental and constitutional rights of every person, and to stand as a reliable counsel against injustice in all its forms.</p>
+          </div>
+          <div class="mvv-card reveal-scale delay-2">
+            <div class="mvv-icon"><i class="fa-solid fa-eye"></i></div>
+            <h3>Our Vision</h3>
+            <p>A Nigeria where the rule of law is supreme, where equality before the law is not a privilege, and where every citizen has access to fearless representation.</p>
+          </div>
+          <div class="mvv-card reveal-scale delay-3">
+            <div class="mvv-icon"><i class="fa-solid fa-handshake"></i></div>
+            <h3>Our Approach</h3>
+            <p>We combine rigorous legal analysis with strategic advocacy — always prioritising the dignity and rights of those we represent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUNDER -->
+    <section class="founder">
+      <div class="container">
+        <div class="founder-grid">
+          <div class="founder-photo reveal-left">
+            <div class="initials">JO</div>
+            <div class="quote-box">
+              <p>“Justice is not a commodity for the privileged. It is the right of every human being.”</p>
+            </div>
+          </div>
+          <div class="founder-content reveal-right">
+            <div class="section-subtitle">
+              <i class="fa-solid fa-user-tie"></i>
+              Founder &amp; Principal
+            </div>
+            <h2>Barr. JMCC Ogbuka</h2>
+            <div class="founder-role">Egalitarian Legal Luminary · Human Rights Activist</div>
+            <p>
+              Barr. JMCC Ogbuka is the founding force behind The House of Laws. His passion for legal erudition, bar advocacy and the protection of human rights has shaped the identity and direction of the firm.
+            </p>
+            <p>
+              Known for a radical yet principled approach to justice, he has consistently used the law as a tool for the advancement of equal rights, constitutional freedoms and public accountability.
+            </p>
+            <ul class="founder-highlights">
+              <li><i class="fa-solid fa-check"></i> Founder of The House of Laws (Cicero Chambers)</li>
+              <li><i class="fa-solid fa-check"></i> Leading advocate for fundamental human rights</li>
+              <li><i class="fa-solid fa-check"></i> Author and thought leader on justice and equality</li>
+              <li><i class="fa-solid fa-check"></i> Counsel in high-stakes constitutional and public interest matters</li>
+            </ul>
+            <a href="https://thehouseoflaws.org/attorneys" class="btn btn-outline">Meet Our Team</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="principles">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-subtitle">
+            <i class="fa-solid fa-shield-halved"></i>
+            What guides us
+          </div>
+          <h2 class="section-title">Our Core <span>Principles</span></h2>
+        </div>
+        <div class="principles-grid">
+          <div class="principle-item reveal delay-1">
+            <div class="principle-num">01</div>
+            <h4>Integrity</h4>
+            <p>We uphold the highest standards of professional ethics and honesty in every matter we handle.</p>
+          </div>
+          <div class="principle-item reveal delay-2">
+            <div class="principle-num">02</div>
+            <h4>Courage</h4>
+            <p>We do not shy away from difficult cases or powerful interests when justice demands a stand.</p>
+          </div>
+          <div class="principle-item reveal delay-3">
+            <div class="principle-num">03</div>
+            <h4>Equality</h4>
+            <p>Every client, regardless of status or background, receives the same commitment and excellence.</p>
+          </div>
+          <div class="principle-item reveal delay-4">
+            <div class="principle-num">04</div>
+            <h4>Excellence</h4>
+            <p>We pursue thorough preparation, clear counsel and effective advocacy in every engagement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item reveal delay-1">
+            <strong>15+</strong>
+            <span>Years of Practice</span>
+          </div>
+          <div class="stat-item reveal delay-2">
+            <strong>3</strong>
+            <span>Office Locations</span>
+          </div>
+          <div class="stat-item reveal delay-3">
+            <strong>6+</strong>
+            <span>Practice Areas</span>
+          </div>
+          <div class="stat-item reveal delay-4">
+            <strong>100%</strong>
+            <span>Commitment to Justice</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="about-cta">
+      <div class="container">
+        <h2 class="reveal">Ready to stand for <span>justice</span> with us?</h2>
+        <p class="reveal delay-1">Whether you need counsel, representation or simply wish to learn more, we are here to listen.</p>
+        <div class="actions reveal delay-2">
+          <a href="contact.html" class="btn btn-filled">Contact Us</a>
+          <a href="https://thehouseoflaws.org/schedule-appointment" class="btn btn-light">Book an Appointment</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand reveal">
+            <a href="index.html" class="logo">
+              <i class="fa-solid fa-scale-balanced logo-icon"></i>
+              <div class="logo-text">The House of Laws</div>
+            </a>
+            <p>Providing a bastion of refuge against injustice, inequity and abuse of power for all persons.</p>
+            <div class="socials">
+              <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </div>
+          </div>
+          <div class="footer-col reveal delay-1">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="https://thehouseoflaws.org/attorneys">Our Attorneys</a></li>
+              <li><a href="https://thehouseoflaws.org/practice-areas">Practice Areas</a></li>
+              <li><a href="https://thehouseoflaws.org/careers">Careers</a></li>
+              <li><a href="https://thehouseoflaws.org/blog">Publications</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact reveal delay-2">
+            <h4>Contact</h4>
+            <address>
+              <small>Enugu – Nsukka</small>
+              The House of Laws Building, Suite I, II &amp; III<br>
+              No 88 Aku Road, Nsukka, Enugu State
+            </address>
+            <address>
+              <small>Enugu – GRA</small>
+              No 30/31 Park Avenue GRA, Enugu State
+            </address>
+            <address>
+              <small>Abuja</small>
+              House 49, G Close, 1st Avenue, Gwarimpa, FCT
+            </address>
+            <p style="margin-top:16px;">
+              <a href="tel:08037739081">0803 773 9081</a> · 
+              <a href="tel:07044358629">0704 435 8629</a>
+            </p>
+            <p><a href="mailto:info@thehouseoflaws.org">info@thehouseoflaws.org</a></p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 The House of Laws. All rights reserved.</p>
+          <p>Developed by <a href="https://api.whatsapp.com/send?phone=2348169649475" target="_blank" rel="noopener">IkebrosTech</a></p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <a href="https://wa.me/2347044358629" class="float-whatsapp" id="whatsappBtn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      const pageContent = document.getElementById('page-content');
+      const navbar = document.getElementById('navbar');
+      const whatsapp = document.getElementById('whatsappBtn');
+
+      setTimeout(() => {
+        preloader.classList.add('hide');
+        pageContent.classList.add('visible');
+        navbar.classList.add('show');
+        setTimeout(() => whatsapp.classList.add('show'), 500);
+        document.querySelectorAll('.page-banner .reveal').forEach(el => el.classList.add('active'));
+      }, 4000);
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+        menuToggle.querySelector('i').classList.remove('fa-xmark');
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      revealElements.forEach(el => {
+        if (el.getBoundingClientRect().top < windowHeight - 70) {
+          el.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    setTimeout(revealOnScroll, 4200);
+  </script>
+</body>
+</html>

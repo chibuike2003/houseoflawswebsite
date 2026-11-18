@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Manage Jobs &amp; Forms | Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Jost", sans-serif; background: #f0eeeb; color: #817f7c; }
+    .dashboard { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .sidebar { background: #14100c; color: #fff; padding: 28px 0; }
+    .sidebar a { display: block; padding: 12px 24px; color: rgba(255,255,255,0.7); }
+    .sidebar a:hover, .sidebar a.active { color: #ac835d; background: rgba(172,131,93,0.1); }
+    .main { display: flex; flex-direction: column; }
+    .topbar { background: #fff; padding: 16px 32px; border-bottom: 1px solid #e8e4de; display: flex; justify-content: space-between; align-items: center; }
+    .content { padding: 32px; }
+    .card { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(20,16,12,0.04); margin-bottom: 28px; }
+    h2, h3 { font-family: 'Playfair Display', serif; color: #14100c; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 500; text-transform: uppercase; color: #14100c; margin-bottom: 6px; }
+    input, select, textarea { width: 100%; padding: 12px 14px; font-family: inherit; font-size: 14px; background: #f7f6f4; border: 1.5px solid rgba(172,131,93,0.25); border-radius: 8px; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: #ac835d; background: #fff; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn { background: #ac835d; color: #fff; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-weight: 500; font-family: inherit; }
+    .btn:hover { background: #96704d; }
+    .field-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: center; background: #faf9f7; padding: 10px; border-radius: 8px; }
+    .btn-remove { background: #e74c3c; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+    th, td { padding: 14px 18px; border-bottom: 1px solid #f0eeeb; text-align: left; color: #14100c; }
+    th { background: #faf9f7; text-transform: uppercase; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div style="padding: 0 24px 20px; font-size: 1.1rem; font-family: 'Playfair Display', serif; color: #ac835d;">House of Laws</div>
+      <a href="/p3v9m6k-w2x5-secure-panel-f8q1">Dashboard</a>
+      <a href="{{ url_for('admin_appointments') }}">Appointments</a>
+      <a href="{{ url_for('admin_jobs') }}" class="active">Careers / Jobs</a>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <h2>Job Postings &amp; Application Builder</h2>
+        <span>{{ admin.first_name }}</span>
+      </header>
+      <div class="content">
+
+        <!-- Create Job Form Card -->
+        <div class="card">
+          <h3 style="margin-bottom: 20px;">Post New Job Opportunity &amp; Define Form Requirements</h3>
+          <form action="{{ url_for('create_job') }}" method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" name="title" required placeholder="e.g. Senior Litigation Associate">
+              </div>
+              <div class="form-group">
+                <label>Department / Practice Area</label>
+                <input type="text" name="department" required placeholder="e.g. Corporate Law">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Office Location</label>
+                <select name="location" required>
+                  <option value="Nsukka Office, Enugu">Nsukka Office, Enugu</option>
+                  <option value="GRA Office, Enugu">GRA Office, Enugu</option>
+                  <option value="Abuja Office">Abuja Office</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Employment Type</label>
+                <select name="employment_type" required>
+                  <option value="Full-Time">Full-Time</option>
+                  <option value="Part-Time">Part-Time</option>
+                  <option value="Internship / Pupil">Internship / Pupil</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Job Description</label>
+              <textarea name="description" required placeholder="Describe responsibilities and requirements..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Closing Date</label>
+              <input type="text" name="closing_date" placeholder="e.g. 30 December 2026">
+            </div>
+
+            <hr style="border:0; border-top:1px solid #eee; margin: 24px 0;">
+
+            <h4 style="margin-bottom: 12px; font-family:'Playfair Display',serif;">Custom Applicant Form Fields &amp; Document Requirements</h4>
+            <p style="font-size: 13px; color:#999; margin-bottom: 16px;">Add questions or document uploads applicants must provide (like CV, Cover Letter, Bar Certifications, etc.).</p>
+            
+            <div id="formFieldsContainer">
+              <!-- Default fields -->
+              <div class="field-row">
+                <input type="text" name="field_labels[]" value="Upload Curriculum Vitae (CV)" required>
+                <select name="field_types[]">
+                  <option value="file">File Upload (.pdf, .doc)</option>
+                  <option value="text">Short Text</option>
+                  <option value="textarea">Paragraph / Long Text</option>
+                </select>
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            <button type="button" class="btn" style="background:#444; font-size:13px; padding:8px 16px; margin-bottom:24px;" onclick="addFormField()">
+              <i class="fa-solid fa-plus"></i> Add Form Field / Document
+            </button>
+
+            <br>
+            <button type="submit" class="btn">Publish Job &amp; Form</button>
+          </form>
+        </div>
+
+        <!-- Existing Jobs List -->
+        <div class="card">
+          <h3>Active Job Postings</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Location</th>
+                <th>Closing Date</th>
+                <th>Public Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for job in jobs %}
+              <tr>
+                <td><strong>{{ job.title }}</strong></td>
+                <td>{{ job.department }}</td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.closing_date or 'Open' }}</td>
+                <td><a href="/careers/{{ job.id }}" target="_blank" style="color:#ac835d; text-decoration:underline;">View Application Form</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addFormField() {
+      const container = document.getElementById('formFieldsContainer');
+      const div = document.createElement('div');
+      div.className = 'field-row';
+      div.innerHTML = `
+        <input type="text" name="field_labels[]" placeholder="Field Question or Document Name (e.g. Cover Letter)" required>
+        <select name="field_types[]">
+          <option value="file">File Upload (.pdf, .doc)</option>
+          <option value="text">Short Text</option>
+          <option value="textarea">Paragraph / Long Text</option>
+        </select>
+        <button type="button" class="btn-remove" onclick="this.parentElement.remove()"><i class="fa-solid fa-trash"></i></button>
+      `;
+      container.appendChild(div);
+    }
+  </script>
+</body>
+</html>

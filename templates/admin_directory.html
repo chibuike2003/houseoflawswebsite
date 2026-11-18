@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Manage Administrators | The House Of Laws</title>
+  <meta name="theme-color" content="#14100c">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Jost", sans-serif;
+      font-size: 15px;
+      color: #817f7c;
+      background: #f0eeeb;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: #14100c; font-weight: 500; }
+    a { text-decoration: none; color: inherit; transition: 0.25s; }
+    ul { list-style: none; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: #14100c;
+      color: #fff;
+      padding: 28px 0;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 24px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 20px;
+    }
+    .sidebar-logo i { font-size: 24px; color: #ac835d; }
+    .sidebar-logo span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      color: rgba(255,255,255,0.7);
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+    .sidebar-nav a i { width: 20px; text-align: center; font-size: 15px; }
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      color: #ac835d;
+      background: rgba(172,131,93,0.1);
+    }
+    .sidebar-nav .section-label {
+      padding: 18px 24px 8px;
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 20px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-footer a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.55);
+      font-size: 14px;
+    }
+    .sidebar-footer a:hover { color: #e74c3c; }
+
+    .main { display: flex; flex-direction: column; }
+    .topbar {
+      background: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e8e4de;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar h1 { font-size: 1.35rem; margin: 0; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar-right .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #14100c;
+      font-weight: 500;
+    }
+    .topbar-right .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #14100c;
+      color: #ac835d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 600;
+      overflow: hidden;
+    }
+    .topbar-right .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .topbar-right .user-meta { display: flex; flex-direction: column; line-height: 1.25; }
+    .topbar-right .user-meta small { font-size: 12px; color: #999; font-weight: 400; text-transform: capitalize; }
+
+    .content { padding: 32px; flex: 1; }
+
+    .flash {
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .flash-success { background: #e8f8ef; color: #1e8449; border: 1px solid #b7e1c4; }
+    .flash-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6cb; }
+
+    .page-header-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      background: #ac835d;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #96704d; transform: translateY(-2px); }
+
+    /* Admins Table Card */
+    .table-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(20,16,12,0.04);
+      overflow: hidden;
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #faf9f7;
+      padding: 16px 24px;
+      font-weight: 600;
+      color: #14100c;
+      border-bottom: 1px solid #f0eeeb;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f0eeeb;
+      color: #555;
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9f7; }
+
+    .admin-user-cell {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .admin-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #14100c;
+      color: #ac835d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 2px solid rgba(172,131,93,0.3);
+    }
+    .admin-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .admin-info strong {
+      display: block;
+      color: #14100c;
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+    .admin-info span { font-size: 13px; color: #999; }
+
+    .badge {
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      text-transform: capitalize;
+    }
+    .badge.super_admin { background: rgba(142,68,173,0.12); color: #8e44ad; }
+    .badge.admin { background: rgba(52,152,219,0.12); color: #3498db; }
+    .badge.editor { background: rgba(39,174,96,0.12); color: #27ae60; }
+
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+    }
+    .action-icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #f7f6f4;
+      color: #817f7c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .action-icon-btn:hover { background: #ac835d; color: #fff; }
+    .action-icon-btn.delete:hover { background: #e74c3c; color: #fff; }
+
+    /* Modal for Adding Admin */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,16,12,0.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(20,16,12,0.25);
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #f0eeeb;
+    }
+    .modal-header h3 { font-size: 1.25rem; margin: 0; }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #999;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #14100c; }
+    .modal-body { padding: 24px; }
+    .modal-body .form-group { margin-bottom: 16px; }
+    .modal-body label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: #14100c;
+      margin-bottom: 6px;
+    }
+    .modal-body input,
+    .modal-body select,
+    .modal-body textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #14100c;
+      background: #f7f6f4;
+      border: 1.5px solid rgba(172,131,93,0.25);
+      border-radius: 8px;
+      outline: none;
+    }
+    .modal-body input:focus,
+    .modal-body select:focus,
+    .modal-body textarea:focus {
+      border-color: #ac835d;
+      background: #fff;
+    }
+    .modal-body .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .btn-modal {
+      width: 100%;
+      padding: 13px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 50px;
+      background: #ac835d;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn-modal:hover { background: #96704d; }
+
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #14100c;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: -280px;
+        z-index: 100;
+        transition: left 0.3s ease;
+        width: 260px;
+      }
+      .sidebar.open { left: 0; }
+      .mobile-toggle { display: block; }
+      .content { padding: 20px 16px; }
+      .topbar { padding: 14px 16px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span>House of Laws</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="section-label">Main</div>
+        <a href="/p3v9m6k-w2x5-secure-panel-f8q1"><i class="fa-solid fa-grid-2"></i> Dashboard</a>
+        <a href="{{ url_for('admin_appointments') }}"><i class="fa-solid fa-calendar-check"></i> Appointments</a>
+        <a href="#"><i class="fa-solid fa-envelope"></i> Messages</a>
+        <a href="#"><i class="fa-solid fa-users"></i> Clients</a>
+
+        <div class="section-label">People</div>
+        <a href="#"><i class="fa-solid fa-user-tie"></i> Staff Directory</a>
+        <a href="#"><i class="fa-solid fa-user-plus"></i> Add Staff Details</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Job Applicants</a>
+
+        <div class="section-label">Content</div>
+        <a href="#"><i class="fa-solid fa-newspaper"></i> Publications</a>
+        <a href="#"><i class="fa-solid fa-user-tie"></i> Attorneys</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Practice Areas</a>
+        <a href="#"><i class="fa-solid fa-briefcase"></i> Careers / Jobs</a>
+        <a href="{{ url_for('admin_newsletter') }}"><i class="fa-solid fa-envelope-open-text"></i> Manage Newsletter</a>
+        
+        <div class="section-label">System</div>
+        <a href="{{ url_for('admin_list') }}" class="active"><i class="fa-solid fa-user-gear"></i> Admins</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/t6n0b4j-r8h3-exit-session-y5c7">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button class="mobile-toggle" id="menuBtn" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <h1>Administrator Directory</h1>
+        </div>
+        <div class="topbar-right">
+          <div class="user">
+            <div class="avatar">
+              {% if admin and admin.profile_picture %}
+                <img src="{{ url_for('static', filename=admin.profile_picture) }}" alt="{{ admin.first_name }}">
+              {% else %}
+                {{ (admin.first_name[0] ~ admin.last_name[0]) if admin else 'AD' }}
+              {% endif %}
+            </div>
+            <div class="user-meta">
+              <span>{{ admin_name or (admin.first_name ~ ' ' ~ admin.last_name if admin else 'Admin') }}</span>
+              <small>{{ admin_role or (admin.role if admin else '') }}</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <div class="page-header-actions">
+          <button type="button" class="btn-primary" onclick="openAddAdminModal()">
+            <i class="fa-solid fa-user-plus"></i> Add New Admin
+          </button>
+        </div>
+
+        <!-- Admins Table Card -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Administrator</th>
+                  <th>Role</th>
+                  <th>Contact Information</th>
+                  <th>Member Since</th>
+                  <th>Last Login</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if admins %}
+                  {% for a in admins %}
+                  <tr>
+                    <td>
+                      <div class="admin-user-cell">
+                        <div class="admin-avatar">
+                          {% if a.profile_picture %}
+                            <img src="{{ url_for('static', filename=a.profile_picture) }}" alt="{{ a.first_name }}">
+                          {% else %}
+                            {{ a.first_name[0] }}{{ a.last_name[0] }}
+                          {% endif %}
+                        </div>
+                        <div class="admin-info">
+                          <strong>{{ a.first_name }} {{ a.last_name }}</strong>
+                          <span>@{{ a.username }}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge {{ a.role | lower }}">{{ a.role | replace('_', ' ') }}</span>
+                    </td>
+                    <td>
+                      <div>{{ a.email }}</div>
+                      <div style="font-size: 12.5px; color: #999;">{{ a.phone }}</div>
+                    </td>
+                    <td>{{ a.created_at.strftime('%d %b %Y') if a.created_at else '—' }}</td>
+                    <td>{{ a.last_login.strftime('%d %b %Y, %H:%M') if a.last_login else 'Never' }}</td>
+                    <td style="text-align: right;">
+                      <div class="actions-cell" style="justify-content: flex-end;">
+                        <button type="button" class="action-icon-btn" title="Edit Admin" onclick="location.href='{{ url_for('edit_admin', admin_id=a.id) if edit_url_exists else '#' }}'">
+                          <i class="fa-solid fa-pen"></i>
+                        </button>
+                        <button type="button" class="action-icon-btn delete" title="Remove Admin" onclick="if(confirm('Are you sure you want to remove this admin?')) { location.href='{{ url_for('delete_admin', admin_id=a.id) if delete_url_exists else '#' }}'; }">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <!-- Fallback demonstration rows if backend list isn't passed yet -->
+                  <tr>
+                    <td>
+                      <div class="admin-user-cell">
+                        <div class="admin-avatar">JM</div>
+                        <div class="admin-info">
+                          <strong>Barr. JMCC Ogbuka</strong>
+                          <span>@principal</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge super_admin">Super Admin</span></td>
+                    <td>
+                      <div>admin@thehouseoflaws.org</div>
+                      <div style="font-size: 12.5px; color: #999;">0803 773 9081</div>
+                    </td>
+                    <td>10 Jan 2026</td>
+                    <td>17 Nov 2026, 14:20</td>
+                    <td style="text-align: right;">
+                      <div class="actions-cell" style="justify-content: flex-end;">
+                        <button type="button" class="action-icon-btn" title="Edit Admin"><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" class="action-icon-btn delete" title="Remove Admin"><i class="fa-solid fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="admin-user-cell">
+                        <div class="admin-avatar">IN</div>
+                        <div class="admin-info">
+                          <strong>Ikenna B. Nwachukwu</strong>
+                          <span>@ikenna</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge admin">Admin</span></td>
+                    <td>
+                      <div>ikenna@thehouseoflaws.org</div>
+                      <div style="font-size: 12.5px; color: #999;">0704 435 8629</div>
+                    </td>
+                    <td>15 Feb 2026</td>
+                    <td>16 Nov 2026, 09:15</td>
+                    <td style="text-align: right;">
+                      <div class="actions-cell" style="justify-content: flex-end;">
+                        <button type="button" class="action-icon-btn" title="Edit Admin"><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" class="action-icon-btn delete" title="Remove Admin"><i class="fa-solid fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Admin Modal -->
+  <div class="modal-overlay" id="addAdminModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Register New Administrator</h3>
+        <button type="button" class="modal-close" onclick="closeAddAdminModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('add_admin') if add_url_exists else '/admin/add' }}" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="first_name" required placeholder="First name">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="last_name" required placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" name="username" required placeholder="Username">
+            </div>
+            <div class="form-group">
+              <label>Role</label>
+              <select name="role" required>
+                <option value="admin">Admin</option>
+                <option value="super_admin">Super Admin</option>
+                <option value="editor">Editor</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" required placeholder="admin@thehouseoflaws.org">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" required placeholder="0803 000 0000">
+          </div>
+          <div class="form-group">
+            <label>Temporary Password</label>
+            <input type="password" name="password" required minlength="8" placeholder="Minimum 8 characters">
+          </div>
+          <button type="submit" class="btn-modal">Create Administrator</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    function openAddAdminModal() {
+      document.getElementById('addAdminModal').classList.add('open');
+    }
+    function closeAddAdminModal() {
+      document.getElementById('addAdminModal').classList.remove('open');
+    }
+    document.getElementById('addAdminModal').addEventListener('click', function(e) {
+      if (e.target === this) closeAddAdminModal();
+    });
+  </script>
+</body>
+</html>

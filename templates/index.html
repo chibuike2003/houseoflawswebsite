@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Home | The House Of Laws</title>
+  <meta name="author" content="Ikenna .B. Nwachukwu">
+  <meta name="theme-color" content="#14100c">
+  <meta name="description" content="The House of Laws – Reliable legal solutions. Full-service law firm in Nigeria specializing in litigation, human rights, corporate and property law.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Jost", sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: #817f7c;
+      background: #fff;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; transition: 0.25s ease; }
+    ul { list-style: none; }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #14100c;
+      margin-bottom: 0.75rem;
+    }
+    .container { width: min(1140px, 92%); margin-inline: auto; }
+
+    /* Preloader */
+    #preloader {
+      position: fixed; inset: 0; background: #14100c; z-index: 99999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #preloader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-logo {
+      width: 90px; height: 90px; border: 2px solid #ac835d; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; color: #ac835d; animation: logoRoll 5s linear forwards;
+    }
+    .preloader-text {
+      margin-top: 28px; font-family: 'Playfair Display', serif; font-size: 1.4rem;
+      color: #fff; letter-spacing: 1px; opacity: 0; animation: fadeInText 1.2s ease 0.6s forwards;
+    }
+    .preloader-text span { color: #ac835d; font-style: italic; }
+    .preloader-bar {
+      width: 120px; height: 2px; background: rgba(172,131,93,0.25);
+      margin-top: 32px; border-radius: 2px; overflow: hidden;
+    }
+    .preloader-bar span {
+      display: block; height: 100%; width: 0; background: #ac835d;
+      animation: loadBar 5s linear forwards;
+    }
+    @keyframes logoRoll {
+      0% { transform: rotate(0deg) scale(0.85); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: rotate(720deg) scale(1); opacity: 1; }
+    }
+    @keyframes fadeInText { to { opacity: 1; } }
+    @keyframes loadBar { to { width: 100%; } }
+
+    #page-content { opacity: 0; transition: opacity 0.9s ease 0.2s; }
+    #page-content.visible { opacity: 1; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal-right.active { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.92); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-scale.active { opacity: 1; transform: scale(1); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+    .delay-6 { transition-delay: 0.6s; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 28px; font-family: "Jost", sans-serif; font-size: 15px;
+      font-weight: 500; letter-spacing: 0.5px; border-radius: 50px;
+      border: 1.5px solid transparent; cursor: pointer; transition: all 0.3s ease;
+      white-space: nowrap; text-align: center;
+    }
+    .btn-outline { background: transparent; border-color: #ac835d; color: #ac835d; }
+    .btn-outline:hover { background: #ac835d; color: #fff; }
+    .btn-filled { background: #ac835d; color: #fff; border-color: #ac835d; }
+    .btn-filled:hover {
+      background: #96704d; border-color: #96704d; transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(172,131,93,0.3);
+    }
+    .btn-dark { background: #14100c; color: #fff; }
+    .btn-dark:hover { background: #2a231c; transform: translateY(-2px); }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 18px 0;
+      background: rgba(20, 16, 12, 0.95); backdrop-filter: blur(12px);
+      transition: padding 0.3s ease; transform: translateY(-100%);
+    }
+    .navbar.show { transform: translateY(0); transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .navbar.scrolled { padding: 12px 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 10px; color: #fff; min-width: 0; }
+    .logo-icon { font-size: 28px; color: #ac835d; flex-shrink: 0; transition: transform 0.5s ease; }
+    .logo:hover .logo-icon { transform: rotate(20deg); }
+    .logo-text {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600;
+      line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .logo-text span {
+      display: block; font-size: 0.65rem; font-family: "Jost", sans-serif;
+      font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; color: #ac835d;
+    }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a {
+      color: rgba(255,255,255,0.88); font-size: 14px; font-weight: 500;
+      position: relative; white-space: nowrap;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px;
+      background: #ac835d; transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-links a:hover, .nav-links a.active { color: #ac835d; }
+    .nav-cta { margin-left: 4px; }
+    .menu-toggle {
+      display: none; background: none; border: none; color: #fff;
+      font-size: 22px; cursor: pointer; padding: 8px; line-height: 1;
+      min-width: 44px; min-height: 44px; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 1001;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(rgba(20,16,12,0.72), rgba(20,16,12,0.78)),
+                  url('https://thehouseoflaws.org/img/slider/3.jpg') center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      color: #fff; padding: 130px 0 80px; position: relative;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 15px;
+      font-style: italic; color: #d4b48a; margin-bottom: 18px;
+    }
+    .hero-eyebrow i {
+      background: #ac835d; color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5.5vw, 3.4rem); color: #fff; margin-bottom: 10px;
+      font-weight: 500; line-height: 1.2; padding: 0 8px; word-wrap: break-word;
+    }
+    .hero h1 span {
+      display: block; color: #d4b48a; font-style: italic; font-size: 0.72em;
+      margin-top: 6px; font-weight: 400;
+    }
+    .hero-chambers {
+      font-family: "Jost", sans-serif; font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.75);
+      margin-bottom: 28px; font-weight: 400;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .hero-actions .btn-outline { border-color: rgba(255,255,255,0.5); color: #fff; }
+    .hero-actions .btn-outline:hover { background: #fff; color: #14100c; border-color: #fff; }
+
+    section { padding: 90px 0; }
+    .section-header { text-align: center; margin-bottom: 50px; }
+    .section-subtitle {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 15px;
+      font-style: italic; color: #ac835d; margin-bottom: 12px;
+    }
+    .section-subtitle i {
+      background: #ac835d; color: #fff; width: 32px; height: 32px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0;
+    }
+    .section-title { font-size: clamp(1.7rem, 4vw, 2.6rem); margin-bottom: 12px; }
+    .section-title span { color: #ac835d; }
+    .section-desc { max-width: 540px; margin: 0 auto; color: #817f7c; }
+
+    .about { background: #fff; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-content .section-subtitle { justify-content: flex-start; }
+    .about-content p { margin-bottom: 18px; color: #817f7c; }
+    .about-list { margin: 24px 0 32px; }
+    .about-list li {
+      display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+      color: #14100c; font-size: 16px;
+    }
+    .about-list li i { color: #ac835d; margin-top: 4px; flex-shrink: 0; }
+    .about-visual {
+      position: relative; border-radius: 8px; overflow: hidden;
+      aspect-ratio: 4/5; background: #f7f6f4;
+    }
+    .about-visual-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #2a231c 0%, #14100c 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual-inner i { font-size: 5rem; color: rgba(172,131,93,0.25); }
+    .about-badge {
+      position: absolute; bottom: 24px; left: 24px; background: #14100c;
+      color: #fff; padding: 18px 22px; border-radius: 8px; max-width: 220px;
+    }
+    .about-badge strong {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: #ac835d; margin-bottom: 2px;
+    }
+    .about-badge span { font-size: 13px; opacity: 0.85; }
+
+    .features { background: #f7f6f4; padding: 70px 0; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .feature-card {
+      background: #fff; padding: 36px 28px; border-radius: 8px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px); box-shadow: 0 20px 40px rgba(20,16,12,0.09);
+    }
+    .feature-icon {
+      width: 56px; height: 56px; background: rgba(172,131,93,0.12); color: #ac835d;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+      transition: transform 0.4s ease, background 0.3s ease;
+    }
+    .feature-card:hover .feature-icon {
+      transform: rotateY(180deg); background: #ac835d; color: #fff;
+    }
+    .feature-card h4 { font-size: 1.25rem; margin-bottom: 10px; }
+    .feature-card p { font-size: 15px; color: #817f7c; margin: 0; }
+
+    .practices { background: #fff; }
+    .practice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .practice-card {
+      background: #f7f6f4; padding: 32px 26px; border-radius: 8px;
+      border-left: 3px solid transparent; transition: all 0.35s ease;
+    }
+    .practice-card:hover {
+      background: #fff; border-left-color: #ac835d;
+      box-shadow: 0 16px 36px rgba(20,16,12,0.07); transform: translateY(-4px);
+    }
+    .practice-num {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      color: #ac835d; opacity: 0.7; margin-bottom: 12px;
+    }
+    .practice-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+    .practice-card p { font-size: 15px; color: #817f7c; margin: 0; }
+
+    .team { background: #f7f6f4; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .member-card {
+      background: #fff; border-radius: 8px; overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .member-card:hover {
+      transform: translateY(-8px); box-shadow: 0 18px 40px rgba(20,16,12,0.1);
+    }
+    .member-photo {
+      aspect-ratio: 1/1.15;
+      background: linear-gradient(135deg, #2a231c, #14100c);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 3rem;
+      color: rgba(172,131,93,0.45); letter-spacing: 2px;
+    }
+    .member-info { padding: 22px 20px 26px; }
+    .member-info h3 { font-size: 1.2rem; margin-bottom: 4px; }
+    .member-role {
+      font-size: 13px; color: #ac835d; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 10px;
+    }
+    .member-info p { font-size: 14px; color: #817f7c; margin: 0; }
+
+    .blog { background: #fff; }
+    .blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    .blog-card {
+      background: #f7f6f4; border-radius: 8px; overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .blog-card:hover {
+      transform: translateY(-6px); box-shadow: 0 16px 36px rgba(20,16,12,0.08);
+    }
+    .blog-img {
+      aspect-ratio: 16/10; background: #e8e4de; display: flex;
+      align-items: center; justify-content: center; color: #ac835d; font-size: 2rem;
+    }
+    .blog-body { padding: 24px; }
+    .blog-cat {
+      display: inline-block; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 1px; color: #ac835d; margin-bottom: 10px;
+    }
+    .blog-body h4 { font-size: 1.15rem; margin-bottom: 10px; line-height: 1.35; }
+    .blog-body h4 a:hover { color: #ac835d; }
+    .blog-meta { font-size: 13px; color: #999; margin-top: 14px; }
+
+    .cta {
+      background: linear-gradient(rgba(20,16,12,0.85), rgba(20,16,12,0.88)),
+                  url('https://thehouseoflaws.org/img/slider/12.jpg') center/cover no-repeat;
+      padding: 80px 0; color: #fff; text-align: center;
+    }
+    .cta h2 {
+      color: #fff; font-size: clamp(1.45rem, 3.5vw, 2.2rem);
+      max-width: 700px; margin: 0 auto 28px; padding: 0 10px;
+    }
+    .cta h2 span { color: #d4b48a; }
+    .cta-phone {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,0.08); padding: 16px 28px;
+      border-radius: 60px; transition: background 0.3s ease, transform 0.3s ease;
+      max-width: 100%;
+    }
+    .cta-phone:hover { background: rgba(255,255,255,0.14); transform: scale(1.03); }
+    .cta-phone i {
+      background: #ac835d; width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .cta-phone div { text-align: left; }
+    .cta-phone small { display: block; font-size: 13px; opacity: 0.7; margin-bottom: 2px; }
+    .cta-phone a { font-size: 1.25rem; font-weight: 500; color: #fff; }
+    .cta-phone a:hover { color: #d4b48a; }
+
+    /* Newsletter */
+    .newsletter {
+      background: #f7f6f4;
+      padding: 70px 0;
+    }
+    .newsletter-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .newsletter h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      margin-bottom: 10px;
+    }
+    .newsletter h2 span { color: #ac835d; }
+    .newsletter p {
+      color: #817f7c;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .newsletter-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 15px;
+      color: #14100c;
+      background: #fff;
+      border: 1.5px solid rgba(172,131,93,0.3);
+      border-radius: 50px;
+      outline: none;
+    }
+    .newsletter-form input:focus { border-color: #ac835d; }
+    .newsletter-form .btn { flex-shrink: 0; }
+    .newsletter-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    footer {
+      background: #14100c; color: rgba(255,255,255,0.65); padding-top: 70px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 50px;
+      padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-brand .logo { margin-bottom: 18px; }
+    .footer-brand p { font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
+    .socials { display: flex; gap: 12px; }
+    .socials a {
+      width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); font-size: 14px; transition: all 0.3s ease;
+    }
+    .socials a:hover {
+      background: #ac835d; border-color: #ac835d; color: #fff; transform: translateY(-3px);
+    }
+    .footer-col h4 {
+      color: #fff; font-size: 1.1rem; margin-bottom: 20px;
+      font-family: "Jost", sans-serif; font-weight: 500;
+    }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col a:hover { color: #ac835d; }
+    .footer-contact address {
+      font-style: normal; font-size: 14px; line-height: 1.55; margin-bottom: 14px;
+    }
+    .footer-contact address small {
+      display: block; color: #ac835d; font-size: 12px; margin-bottom: 2px;
+    }
+    .footer-contact a { color: rgba(255,255,255,0.8); }
+    .footer-contact a:hover { color: #ac835d; }
+    .footer-bottom {
+      padding: 22px 0; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 10px; font-size: 14px;
+    }
+    .footer-bottom a { color: #ac835d; }
+
+    .float-whatsapp {
+      position: fixed; width: 56px; height: 56px; bottom: 24px; right: 20px;
+      background: #25D366; color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.4); z-index: 999; font-size: 28px;
+      opacity: 0; transform: scale(0.6); transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .float-whatsapp.show { opacity: 1; transform: scale(1); }
+    .float-whatsapp:hover { transform: scale(1.1); }
+
+    .text-center { text-align: center; }
+    .mt-30 { margin-top: 30px; }
+
+    /* ========== RESPONSIVE MOBILE FIXES ========== */
+    @media (max-width: 1024px) {
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 13px; }
+    }
+
+    @media (max-width: 991px) {
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(172, 131, 93, 0.15);
+        color: #ac835d;
+        border: 1px solid rgba(172, 131, 93, 0.3);
+        border-radius: 6px;
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+      .menu-toggle:hover, .menu-toggle:active {
+        background: #ac835d;
+        color: #fff;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #14100c;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px 6% 24px;
+        gap: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a {
+        width: 100%;
+        padding: 13px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        white-space: normal;
+        font-size: 15px;
+      }
+      .nav-links a::after { display: none; }
+      .nav-cta {
+        margin: 16px 0 4px;
+        width: 100%;
+      }
+      .nav-cta .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-visual { max-width: 420px; margin: 0 auto; aspect-ratio: 4/4.2; }
+      .practice-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 800px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 700px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 60px 0; }
+      .features, .newsletter { padding: 50px 0; }
+      .hero { padding: 110px 0 60px; min-height: 100svh; }
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .hero-actions .btn {
+        width: 100%;
+        max-width: 280px;
+      }
+      .practice-grid { grid-template-columns: 1fr; }
+      .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 340px;
+        margin-inline: auto;
+      }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cta-phone {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 24px;
+        border-radius: 16px;
+        width: 100%;
+      }
+      .cta-phone div { text-align: center; }
+      .about-badge {
+        left: 16px; bottom: 16px; padding: 14px 16px; max-width: 180px;
+      }
+      .about-badge strong { font-size: 1.35rem; }
+      .float-whatsapp {
+        width: 50px; height: 50px; bottom: 18px; right: 14px; font-size: 24px;
+      }
+      .newsletter-form {
+        flex-direction: column;
+        width: 100%;
+      }
+      .newsletter-form .btn {
+        width: 100%;
+      }
+      .logo-text { font-size: 1.05rem; }
+      .menu-toggle {
+        font-size: 20px;
+        min-width: 42px;
+        min-height: 42px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      body { font-size: 16px; }
+      .logo-text { font-size: 0.95rem; }
+      .logo-text span { font-size: 0.55rem; letter-spacing: 1px; }
+      .hero h1 { font-size: 1.55rem; }
+      .hero-chambers { letter-spacing: 2px; font-size: 0.8rem; }
+      .btn { padding: 12px 22px; font-size: 14px; }
+      .section-title { font-size: 1.5rem; }
+      .preloader-logo { width: 74px; height: 74px; font-size: 2rem; }
+      .preloader-text { font-size: 1.15rem; }
+      .feature-card, .practice-card { padding: 28px 20px; }
+      .member-info { padding: 18px 16px 22px; }
+      .blog-body { padding: 20px; }
+      .container { width: 94%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="preloader-logo"><i class="fa-solid fa-scale-balanced"></i></div>
+    <div class="preloader-text">The House of <span>Laws</span></div>
+    <div class="preloader-bar"><span></span></div>
+  </div>
+
+  <div id="page-content">
+<nav class="navbar" id="navbar">
+      <div class="container nav-inner">
+        <a href="{{ url_for('index') }}" class="logo">
+          <i class="fa-solid fa-scale-balanced logo-icon"></i>
+          <div class="logo-text">
+            The House of Laws
+          </div>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" type="button">
+          <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+
+        <div class="nav-links" id="navLinks">
+          <a href="{{ url_for('home') }}" class="active">Home</a>
+          <a href="{{ url_for('about') }}">About</a>
+          <a href="{{ url_for('home') }}#practices">Practice Areas</a>
+          <a href="{{ url_for('home') }}#team">Attorneys</a>
+          <a href="{{ url_for('public_publications') }}">Publications</a>
+          <a href="{{ url_for('public_testimonials') }}">Success Stories</a>
+          <a href="{{ url_for('careers') }}">Careers</a>
+          <a href="{{ url_for('contact') }}">Contact</a>
+          <div class="nav-cta">
+            <a href="{{ url_for('appointment') }}" class="btn btn-filled">Schedule Appointment</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <style>
+      /* --- Base Navbar Layout --- */
+      .navbar {
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #14100c;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .logo-icon {
+        color: #ac835d;
+        font-size: 22px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #444;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        color: #ac835d;
+      }
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: #14100c;
+      }
+
+      /* --- Responsive Mobile Styles --- */
+      @media (max-width: 992px) {
+        .menu-toggle {
+          display: block;
+        }
+        .nav-links {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: #ffffff;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 20px 30px;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+          border-top: 1px solid #eee;
+          display: none; /* Hidden by default */
+        }
+        .nav-links.active {
+          display: flex; /* Shown when toggled */
+        }
+        .nav-links a {
+          padding: 10px 0;
+          width: 100%;
+          font-size: 16px;
+        }
+        .nav-cta {
+          width: 100%;
+          margin-top: 10px;
+        }
+        .nav-cta .btn {
+          display: block;
+          text-align: center;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+    </style>
+
+    <script>
+      // --- Mobile Menu Toggle Script ---
+      document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+        const menuIcon = document.getElementById("menuIcon");
+
+        if (menuToggle && navLinks) {
+          menuToggle.addEventListener("click", function() {
+            navLinks.classList.toggle("active");
+            
+            // Switch hamburger icon to a close (X) icon dynamically
+            if (navLinks.classList.contains("active")) {
+              menuIcon.classList.remove("fa-bars");
+              menuIcon.classList.add("fa-xmark");
+            } else {
+              menuIcon.classList.remove("fa-xmark");
+              menuIcon.classList.add("fa-bars");
+            }
+          });
+        }
+      });
+    </script>
+
+    <header class="hero">
+      <div class="container">
+        <div class="hero-eyebrow reveal">
+          <i class="fa-solid fa-landmark"></i>
+          Reliable legal solution
+        </div>
+        <h1 class="reveal delay-1">
+          THE HOUSE OF LAWS
+          <span>OGBUKA, OGBUKA &amp; ASSOCIATES</span>
+        </h1>
+        <p class="hero-chambers reveal delay-1">CICERO CHAMBERS</p>
+        <div class="hero-actions reveal delay-2">
+          <a href="#about" class="btn btn-outline">Learn More</a>
+          <a href="{{ url_for('appointment') }}" class="btn btn-filled">Book an Appointment</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content reveal-left">
+            <div class="section-subtitle">
+              <i class="fa-solid fa-landmark"></i>
+              About House of Laws
+            </div>
+            <h2 class="section-title">A fortress of <span>justice</span> for all</h2>
+            <p>
+              The House of Laws is established to provide a bastion of refuge for persons of all classes, races and nationalities against all forms of injustice, inequity, oppression and abuse of power.
+            </p>
+            <p>
+              Founded by Barr. JMCC Ogbuka, an egalitarian legal luminary and human rights activist, the firm is renowned for its bold defence of equal rights, constitutional freedoms and the rule of law across Nigeria.
+            </p>
+            <ul class="about-list">
+              <li><i class="fa-solid fa-check"></i> Litigation &amp; Bar Advocacy</li>
+              <li><i class="fa-solid fa-check"></i> Fundamental &amp; Constitutional Rights</li>
+              <li><i class="fa-solid fa-check"></i> Corporate &amp; Property Law</li>
+              <li><i class="fa-solid fa-check"></i> Arbitration &amp; Legal Research</li>
+            </ul>
+            <a href="https://thehouseoflaws.org/about-us" class="btn btn-dark">Discover More</a>
+          </div>
+          <div class="about-visual reveal-right">
+            <div class="about-visual-inner">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div class="about-badge">
+              <strong>15+</strong>
+              <span>Years of dedicated legal practice</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card reveal-scale delay-1">
+            <div class="feature-icon"><i class="fa-solid fa-gavel"></i></div>
+            <h4>Legal Advocacy</h4>
+            <p>Strong courtroom representation and strategic counsel for complex civil and criminal matters.</p>
+          </div>
+          <div class="feature-card reveal-scale delay-2">
+            <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h4>Human Rights</h4>
+            <p>Dedicated defence of fundamental rights, police accountability and constitutional freedoms.</p>
+          </div>
+          <div class="feature-card reveal-scale delay-3">
+            <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
+            <h4>Award-Winning</h4>
+            <p>Recognised for excellence in advocacy, public interest litigation and legal scholarship.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="practices" id="practices">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-subtitle">
+            <i class="fa-solid fa-landmark"></i>
+            Areas of practice
+          </div>
+          <h2 class="section-title">Service <span>Areas</span></h2>
+          <p class="section-desc">Comprehensive legal services across the full spectrum of Nigerian law.</p>
+        </div>
+        <div class="practice-grid">
+          <div class="practice-card reveal delay-1">
+            <div class="practice-num">01</div>
+            <h3>Litigation &amp; Advocacy</h3>
+            <p>Civil and criminal litigation, appellate practice and high-stakes courtroom representation.</p>
+          </div>
+          <div class="practice-card reveal delay-2">
+            <div class="practice-num">02</div>
+            <h3>Human Rights &amp; Constitutional Law</h3>
+            <p>Enforcement of fundamental rights, public interest litigation and constitutional challenges.</p>
+          </div>
+          <div class="practice-card reveal delay-3">
+            <div class="practice-num">03</div>
+            <h3>Corporate &amp; Commercial</h3>
+            <p>Company formation, commercial contracts, regulatory compliance and business advisory.</p>
+          </div>
+          <div class="practice-card reveal delay-4">
+            <div class="practice-num">04</div>
+            <h3>Property &amp; Real Estate</h3>
+            <p>Land transactions, property disputes, conveyancing and real estate documentation.</p>
+          </div>
+          <div class="practice-card reveal delay-5">
+            <div class="practice-num">05</div>
+            <h3>Arbitration &amp; ADR</h3>
+            <p>Alternative dispute resolution, mediation and arbitration for efficient settlements.</p>
+          </div>
+          <div class="practice-card reveal delay-6">
+            <div class="practice-num">06</div>
+            <h3>Legal Research &amp; Publications</h3>
+            <p>Law journals, digests, research support and continuous legal education.</p>
+          </div>
+        </div>
+        <div class="text-center mt-30 reveal">
+          <a href="https://thehouseoflaws.org/practice-areas" class="btn btn-outline">View All Practice Areas</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="team" id="team">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-subtitle">
+            <i class="fa-solid fa-landmark"></i>
+            Qualified experts
+          </div>
+          <h2 class="section-title">Meet Our <span>Attorneys</span></h2>
+          <p class="section-desc">Experienced advocates committed to excellence and justice.</p>
+        </div>
+        <div class="team-grid">
+          <div class="member-card reveal-scale delay-1">
+            <div class="member-photo">JO</div>
+            <div class="member-info">
+              <h3>Barr. JMCC Ogbuka</h3>
+              <div class="member-role">Founder &amp; Principal</div>
+              <p>Egalitarian legal luminary, human rights activist and thought leader in constitutional advocacy.</p>
+            </div>
+          </div>
+          <div class="member-card reveal-scale delay-2">
+            <div class="member-photo">IN</div>
+            <div class="member-info">
+              <h3>Ikenna B. Nwachukwu</h3>
+              <div class="member-role">Associate Counsel</div>
+              <p>Litigation support, research and client advisory across civil and commercial matters.</p>
+            </div>
+          </div>
+          <div class="member-card reveal-scale delay-3">
+            <div class="member-photo">+</div>
+            <div class="member-info">
+              <h3>More Counsel</h3>
+              <div class="member-role">Growing Team</div>
+              <p>Our chambers continues to expand with dedicated advocates across multiple practice areas.</p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-30 reveal">
+          <a href="https://thehouseoflaws.org/attorneys" class="btn btn-dark">View All Attorneys</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog" id="publications">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-subtitle">
+            <i class="fa-solid fa-landmark"></i>
+            Latest news
+          </div>
+          <h2 class="section-title">Updated <span>Publications</span></h2>
+        </div>
+        <div class="blog-grid">
+          <article class="blog-card reveal-left">
+            <div class="blog-img"><i class="fa-solid fa-book-open"></i></div>
+            <div class="blog-body">
+              <span class="blog-cat">Criminal Law</span>
+              <h4><a href="https://thehouseoflaws.org/blog/standing-against-police-brutality-my-journey-as-a-lawyer-and-people-039-s-rights-advocate-in-nigeria">Standing Against Police Brutality: My Journey as a Lawyer and People's Rights Advocate in Nigeria</a></h4>
+              <p>Reflections on the fight for accountability and justice in the Nigerian criminal justice system.</p>
+              <div class="blog-meta">24 Jun 2026 · by JMCC Ogbuka</div>
+            </div>
+          </article>
+          <article class="blog-card reveal-right">
+            <div class="blog-img"><i class="fa-solid fa-quote-left"></i></div>
+            <div class="blog-body">
+              <span class="blog-cat">Insights</span>
+              <h4><a href="https://thehouseoflaws.org/blog/inspirational-quotes-by-jmcc-ogbuka">Inspirational Quotes by JMCC Ogbuka</a></h4>
+              <p>Selected reflections on justice, the rule of law and the responsibility of the legal profession.</p>
+              <div class="blog-meta">25 Feb 2026 · by JMCC Ogbuka</div>
+            </div>
+          </article>
+        </div>
+        <div class="text-center mt-30 reveal">
+          <a href="{{ url_for('public_publications') }}" class="btn btn-outline">View All Publications</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contact">
+      <div class="container">
+        <h2 class="reveal">All people are equal before the law. <span>A good attorney</span> is what makes a difference.</h2>
+        <div class="cta-phone reveal delay-1">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <small>Get in touch</small>
+            <a href="tel:08037739081">0803 773 9081</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter" id="newsletter">
+      <div class="container">
+        <div class="newsletter-inner reveal">
+          <div class="section-subtitle" style="justify-content:center;">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            Stay informed
+          </div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div style="max-width:520px;margin:0 auto 20px;">
+                {% for category, message in messages %}
+                  <div style="padding:12px 16px;border-radius:8px;font-size:14px;
+                    background:{% if category == 'error' %}#fdecea{% else %}#e8f8ef{% endif %};
+                    color:{% if category == 'error' %}#c0392b{% else %}#1e8449{% endif %};
+                    border:1px solid {% if category == 'error' %}#f5c6cb{% else %}#b7e1c4{% endif %};">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+          <h2>Subscribe to Our <span>Newsletter</span></h2>
+          <p>Receive updates on legal insights, publications and chambers news. No spam — only valuable content.</p>
+          <form class="newsletter-form" action="/subscribe" method="POST">
+            <input type="email" name="email" required placeholder="Enter your email address" aria-label="Email address">
+            <button type="submit" class="btn btn-filled">Subscribe</button>
+          </form>
+          <p class="newsletter-note">We respect your privacy. Unsubscribe anytime.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand reveal">
+            <a href="#" class="logo">
+              <i class="fa-solid fa-scale-balanced logo-icon"></i>
+              <div class="logo-text">
+                The House of Laws
+                <span>Advocates &amp; Solicitors</span>
+              </div>
+            </a>
+            <p>Providing a bastion of refuge against injustice, inequity and abuse of power for all persons.</p>
+            <div class="socials">
+              <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </div>
+          </div>
+          <div class="footer-col reveal delay-1">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="https://thehouseoflaws.org/about-us">About Us</a></li>
+              <li><a href="https://thehouseoflaws.org/attorneys">Our Attorneys</a></li>
+              <li><a href="https://thehouseoflaws.org/practice-areas">Practice Areas</a></li>
+              <li><a href="https://thehouseoflaws.org/careers">Careers</a></li>
+              <li><a href="{{ url_for('public_publications') }}">Publications</a></li>
+              <li><a href="https://thehouseoflaws.org/faqs">FAQs</a></li>
+              <li><a href="https://institute.thehouseoflaws.org/">Institute for Legal Studies</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact reveal delay-2">
+            <h4>Contact</h4>
+            <address>
+              <small>Enugu – Nsukka</small>
+              The House of Laws Building, Suite I, II &amp; III<br>
+              No 88 Aku Road, Nsukka, Enugu State
+            </address>
+            <address>
+              <small>Enugu – GRA</small>
+              No 30/31 Park Avenue GRA, Enugu State
+            </address>
+            <address>
+              <small>Abuja</small>
+              House 49, G Close, 1st Avenue, Gwarimpa, FCT
+            </address>
+            <p style="margin-top:16px;">
+              <a href="tel:08037739081">0803 773 9081</a> ·
+              <a href="tel:07044358629">0704 435 8629</a>
+            </p>
+            <p><a href="mailto:info@thehouseoflaws.org">info@thehouseoflaws.org</a></p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 The House of Laws. All rights reserved.</p>
+          <p>Developed by <a href="https://api.whatsapp.com/send?phone=2348169649475" target="_blank" rel="noopener">IkebrosTech</a></p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <a href="https://wa.me/2347044358629" class="float-whatsapp" id="whatsappBtn" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      const pageContent = document.getElementById('page-content');
+      const navbar = document.getElementById('navbar');
+      const whatsapp = document.getElementById('whatsappBtn');
+
+      setTimeout(() => {
+        preloader.classList.add('hide');
+        pageContent.classList.add('visible');
+        navbar.classList.add('show');
+        setTimeout(() => whatsapp.classList.add('show'), 600);
+        document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('active'));
+      }, 5000);
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const icon = menuToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+        menuToggle.querySelector('i').classList.remove('fa-xmark');
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealOnScroll = () => {
+      const windowHeight = window.innerHeight;
+      revealElements.forEach(el => {
+        if (el.getBoundingClientRect().top < windowHeight - 80) {
+          el.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    setTimeout(revealOnScroll, 5200);
+  </script>
+</body>
+</html>
