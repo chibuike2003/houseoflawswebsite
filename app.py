@@ -32,16 +32,16 @@ app.config["MAX_CONTENT_LENGTH"] = 25 * 1024 * 1024  # 25 MB max upload for mult
 NEWSLETTER_UPLOAD_FOLDER = os.path.join(app.root_path, "static", "uploads", "newsletters")
 os.makedirs(NEWSLETTER_UPLOAD_FOLDER, exist_ok=True)
 
-# Mail (Namecheap Private Email)
-app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "mail.privateemail.com")
-app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
-app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True").lower() in ("true", "1", "yes")
-app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "False").lower() in ("true", "1", "yes")
+# Mail (Namecheap Shared Hosting / cPanel Email)
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "your-cpanel-server-hostname")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 465))
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "False").lower() in ("true", "1", "yes")
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "True").lower() in ("true", "1", "yes")
 app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME", "info@thehouseoflaws.org")
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 app.config["MAIL_DEFAULT_SENDER"] = os.getenv(
     "MAIL_DEFAULT_SENDER",
-    ("The House of Laws – General Public  Welfare", "info@thehouseoflaws.org"),
+    ("The House of Laws – General Public Welfare", "info@thehouseoflaws.org"),
 )
 db = SQLAlchemy(app)
 mail = Mail(app)
